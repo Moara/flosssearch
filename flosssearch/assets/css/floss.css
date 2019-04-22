@@ -1,0 +1,123 @@
+.ls-sidebar .ls-brand-name {
+    padding: 20px 20px;
+}
+.ls-sidebar {
+    background-color: #FFFFFF;
+}
+
+@media screen and (min-width: 768px){
+	.ls-sidebar .ls-sidebar-toggle {
+	    display: none;
+	}
+
+	.ls-pre-panel .ls-sidebar {
+	    border-right: 1px solid #e3ebf6;
+	}
+}
+
+.bg-white{
+	background-color: #FFFFFF!important;
+}
+.text-blue{
+	color: #0f6cb9!important;
+}
+
+.card {
+    margin-bottom: 1.5rem;
+    border-color: #edf2f9;
+    box-shadow: 0 0.75rem 1.5rem rgba(18,38,63,.03);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #edf2f9!important;
+    border-radius: .5rem;
+}
+
+.ls-box, .ls-box-filter, .ls-alert-box {
+    border-style: none; 
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1.125rem;
+    font-weight: 500;
+    line-height: 1.1;
+}
+.text-uppercase {
+    text-transform: uppercase!important;
+}
+.mb-2, .my-2 {
+    margin-bottom: .375rem!important;
+}
+.h6, h6 {
+    font-size: .625rem;
+}
+h6.text-uppercase{
+	letter-spacing: .08em;
+	font-weight: bold;
+}
+p small {
+	text-align: justify!important;
+}
+
+.badge {
+    vertical-align: middle;
+}
+
+.badge {
+    display: inline-block;
+    padding: .33em .5em;
+    font-size: 75%;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .375rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.badge-soft-success {
+    color: #00d97e;
+    background-color: #ccf7e5;
+}
+
+p.filtro{
+    font-weight: bold;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    font-size: 13px!important;
+}
+.ls-sidebar{
+    overflow-y: auto!important;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+::-webkit-scrollbar {
+    width: 6px;
+    background: #F4F4F4;
+}
+::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+
+.tagsinput .tag{
+    background-color: #0F6CB9!important;
+}
+.tagsinput .tag .tag-remove:after, .tagsinput .tag .tag-remove:before{
+    background-color: #FFFFFF!important;
+}
+.irs--round .irs-from, .irs--round .irs-to, .irs--round .irs-single, .irs--round .irs-bar{
+    background-color: #0F6CB9!important;
+}
+.irs--round .irs-handle{
+    border-color: #0F6CB9!important;
+}
+.card .ls-box .ls-title a{
+    color: #0F6CB9!important;
+}

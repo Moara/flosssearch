@@ -106,7 +106,7 @@
         placeholder: 'Adicionar palavras chaves',
     });
 
-    var control = false;
+    var control = 2;
     
     $(document).ready(function() {
 
@@ -114,15 +114,16 @@
              if ($(this).is(':checked')) {
                 $('.controle').fadeOut();
                 $('#nivel_controle').html('CONTROLE INTERNO');
-                control = true;
+                control = 1;
             } else {
                 $('.controle').fadeIn();
                 $('#nivel_controle').html('NENHUM CONTROLE');
-                control = false;
+                control = 2;
           }
         });
 
         $('#linguagem').change(function() {
+            console.log('linguagem');
             pesquisar();
         });
         
@@ -142,7 +143,7 @@ function pesquisar(){
 
     let dados = {};
 
-    if (control) {
+    if (control == 1) {
         let linguagem = $('#linguagem').val();
         let tamanho_projeto = $('#tamanho_projeto').val();
         let maturidade = $('#maturidade').val();
@@ -168,8 +169,6 @@ function pesquisar(){
         let numero_contribuidores = $('#numero_contribuidores').val();
         let projeto_ativo = $('#projeto_ativo').val();
 
-        console.log('passou');
-
         dados = { controle: control, linguagem: linguagem, tamanho_projeto: tamanho_projeto, maturidade: maturidade, dominio: dominio, aceita_contribuicao: aceita_contribuicao, issue_tracker: issue_tracker, comunidade_ativa: comunidade_ativa, numero_contribuidores: numero_contribuidores, projeto_ativo: projeto_ativo };
     }
 
@@ -179,7 +178,7 @@ function pesquisar(){
         dataType : "json",
         data: dados,
         success: function(data){
-          console.log(data);
+          // console.log(data);
           $('#titulo-pesquisa').css('visibility','visible');
           $('#repositorios').html('');
           $('#repositorios').html(data);

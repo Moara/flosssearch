@@ -33,7 +33,7 @@ class Search extends CI_Controller {
 
 		$this->load->model('repositorio_model');
 
-		if ($this->input->post('controle') === true) {
+		if ($this->input->post('controle') == 1) {
 
 			$linguagem = $this->input->post('linguagem') ? $this->input->post('linguagem') : '';
 			$this->repositorio_model->setLinguagem($linguagem);
@@ -49,8 +49,7 @@ class Search extends CI_Controller {
 			$dominio = $this->input->post('dominio') ? $this->input->post('dominio') : '';
 			$this->repositorio_model->setDominio($dominio);
 
-			$resultado = $this->repositorio_model->search();
-			// $resultado = $this->rendering($this->repositorio_model->search());
+			$resultado = $this->rendering($this->repositorio_model->search());
 
 		} else {
 
@@ -85,10 +84,8 @@ class Search extends CI_Controller {
 			$projeto_ativo = explode(';', $projeto_ativo);
 			$this->repositorio_model->setProjetoAtivo($projeto_ativo);
 
-			$resultado = $this->repositorio_model->search();
-			// $resultado = $this->rendering($this->repositorio_model->search());
+			$resultado = $this->rendering($this->repositorio_model->search());
 
-		
 		}
 
 		echo json_encode($resultado);

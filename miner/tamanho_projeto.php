@@ -40,7 +40,8 @@ if ($repositorio) {
 		$lines = substr($lines, 12);
 		$lines = trim(html_entity_decode(strip_tags($lines)));
 		$lines = preg_replace('/\s\s+/', ' ', $lines);
-		$lines = str_replace(",", ".", $lines);
+		// $lines = str_replace(",", ".", $lines);
+		$lines = preg_replace("/[^0-9]/", "", $lines);
 
 		print_r($lines);
 

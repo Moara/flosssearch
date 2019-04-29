@@ -31,6 +31,8 @@ if ($repositorio) {
 	$contributors = trim(html_entity_decode(strip_tags($contributors)));
 	$contributors = preg_replace('/\s\s+/', ' ', $contributors);
 
+	echo "contributors: $contributors <br>";
+
 	if($contributors != 'Fetching'){
 
 		if(!$contributors){

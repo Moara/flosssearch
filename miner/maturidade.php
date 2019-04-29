@@ -30,18 +30,40 @@ if ($repositorio) {
 	$position_branches = strpos($texto, 'branches');
 	if ($position_branches) {
 		$releases = substr($texto, $position_branches);
-		$releases = strstr($releases, 'releases', true);
+		$position_contributors = strpos($releases, 'contributors');
+		$releases = substr($releases, 0, $position_contributors);
+
+		// $releases = strstr($releases, 'releases', true);
+		$position_releases = strpos($releases, 'releases');
+		if ($position_releases) {
+			$releases = strstr($releases, 'releases', true);
+		} else {
+			$releases = strstr($releases, 'release', true);
+		}
+
 		$releases = substr($releases, 8);
 		$releases = trim(html_entity_decode(strip_tags($releases)));
 		$releases = preg_replace('/\s\s+/', ' ', $releases);
+
 	} else {
 
 		$position_branches = strpos($texto, 'branch');
 		$releases = substr($texto, $position_branches);
-		$releases = strstr($releases, 'releases', true);
+		$position_contributors = strpos($releases, 'contributors');
+		$releases = substr($releases, 0, $position_contributors);
+
+		$position_releases = strpos($releases, 'releases');
+		if ($position_releases) {
+			$releases = strstr($releases, 'releases', true);
+		} else {
+			$releases = strstr($releases, 'release', true);
+		}
+
 		$releases = substr($releases, 8);
 		$releases = trim(html_entity_decode(strip_tags($releases)));
 		$releases = preg_replace('/\s\s+/', ' ', $releases);
+
+
 
 	}
 	

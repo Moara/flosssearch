@@ -14,7 +14,7 @@ header("Cache-Control: private, max-age=3600");
   <meta name="keywords" content="">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="floss search">
+  <meta name="apple-mobile-web-app-title" content="floss search"> 
   <script src="<?php echo base_url('assets/js/mediaqueries-ie.js'); ?>" type="text/javascript"></script>
   <script src="<?php echo base_url('assets/js/html5shiv.js'); ?>" type="text/javascript"></script>
   <link href="<?php echo base_url('assets/css/locastyle.css'); ?>" rel="stylesheet" type="text/css" />

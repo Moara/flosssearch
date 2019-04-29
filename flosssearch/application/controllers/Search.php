@@ -11,7 +11,7 @@ class Search extends CI_Controller {
 		$this->load->view('layout/head');
 		$this->load->view('layout/header');
 		$this->load->view('layout/sidebar', $dados);
-		$this->load->view('layout/'.$view);
+		$this->load->view('search/'.$view);
 		$this->load->view('layout/footer');
 	}
 

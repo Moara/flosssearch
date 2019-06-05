@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
-  <title>Hello, world!</title>
+  <title>floss search</title>
 
   <style type="text/css">
     .text-blue {
@@ -60,11 +60,11 @@
           <h2 style="margin-top: 7rem; margin-bottom: 2rem; text-align: center; line-height: 1.2; letter-spacing: -.02em; font-weight: 300; color: #FFFFFF;">Welcome to <span style="color: #FFFFFF; font-weight: 400;"><strong>f</strong>loss <strong>s</strong>earch</span>. Support in the process of choosing open source projects.</h2>
           
           <p style="text-align: center; font-size: 1.8rem; line-height: 3rem; color: #9CADC5; font-weight: 300;">
-            Through FLOSS SEARCH, we seek to support the teacher in the process of choosing open source projects, hosted in GitHub, for use in software engineering education.
+            Through FLOSS SEARCH, we seek to assist teachers in the process of choosing open source projects hosted in GitHub used in software engineering education.
           </p>
 
           <div class="col-lg-12" style="text-align: center;">
-            <a class="btn btn-outline-light" style="background-color: #0f6cb9; color: #ffffff; padding: 10px;" href="<?php echo base_url('search'); ?>" role="button">Start Selection <img src="<?php echo base_url('assets/images/arrow-right.svg'); ?>"></a>
+            <a class="btn btn-outline-light" style="background-color: #0f6cb9; color: #ffffff; padding: 10px;" href="<?php echo base_url('search'); ?>" role="button">Start the Selection <img src="<?php echo base_url('assets/images/arrow-right.svg'); ?>"></a>
           </div>
 
         </div>
@@ -94,7 +94,7 @@
         <div class="col-lg-8" style="min-height: 500px;">
           
           <p style="margin-top: 5.5rem; text-align: justify; font-size: 1.8rem; line-height: 3rem; color: #9CADC5; font-weight: 300; padding: 10px;">
-            Because there is a growing diversity of projects available in software repositories, finding those that have the desired features for integration into a discipline may not be an easy task. With this in mind, we have identified criteria that have already been used in project selection and have built a beta version of a tool that helps you search for open source projects for use in the teaching-learning process.
+            Considering that there is a growing diversity of projects available in software repositories, finding those that have the desired features for integration in the teaching of Software Engineering is not a trivial task. For this purpose, we identified criteria that have been used for project selection and and with this set of criteria helped us to built this tool to assist teachers search for open source projects to be used in their teaching-learning process.
           </p>
 
         </div>
@@ -106,18 +106,16 @@
         <div class="col-lg-8" style="min-height: 500px;">
           
           <p style="margin-top: 5rem; text-align: justify; font-size: 1.8rem; line-height: 3rem; color: #9CADC5; font-weight: 300; padding: 10px;">
-            All projects available here are hosted on GitHub.
-            We used the Open Hub to identify the lines of code of the projects, and version 3 of the GitHub API to implement the scripts of the other criteria. Because of the limitations of this API, we run the deployed scripts on a set of projects chosen for convenience, and we store the results locally.
-            When you run Floss Search, you will be referred to our local information base and not real-time information directly from GitHub.
-            But do not worry, we update this information about the projects constantly.
-
+            All projects available here are hosted on GitHub website.
+			We used the Open Hub to identify the number of lines of code criteria, and the GitHub API to implement the scripts used for other criteria. Due to GitHub API's limitations, we developed some scripts and ran them using a set of projects from GitHub, but stored the results locally.
+			Therefore, it is worth to mention that when you run Floss Search, you will be referring to our local Database and not getting real-time information directly from GitHub although we update this information about the projects constantly.
           </p>
 
         </div>
 
         <div class="col-lg-4" style="margin: 0 auto; text-align: center; margin-top: 7rem;">
           
-          <h2 style="margin-top: 1rem; margin-bottom: 2rem; text-align: center; line-height: 1.2; letter-spacing: .07em; font-weight: 300; color: #FFFFFF; font-size: 3.5rem;">Learn more about our scripts and our database!</h2>
+          <h2 style="margin-top: 1rem; margin-bottom: 2rem; text-align: center; line-height: 1.2; letter-spacing: .07em; font-weight: 300; color: #FFFFFF; font-size: 3.5rem;">Scripts and Database!</h2>
 
         </div>
         

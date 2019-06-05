@@ -26,6 +26,8 @@ class Repositorio_model extends CI_Model {
 	private $numero_contribuidores;
 	private $projeto_ativo;
 
+	private $node_id;
+
 	public function __construct() {
 		parent::__construct();
 	}
@@ -102,9 +104,17 @@ class Repositorio_model extends CI_Model {
 		return $this;
 	}
 
+	public function getNodeId() {
+		return $this->node_id;
+	}
+	public function setNodeId($node_id) {
+		$this->node_id = $node_id;
+		return $this;
+	}
+
 	public function search() {
 
-		$this->db->select('node_id, name, html_url, description, total_contribuidores, code_lines, quantidade_commits, data_ultimo_comentario');
+		$this->db->select('node_id, name, html_url, description, total_contribuidores, code_lines, quantidade_commits, data_ultimo_comentario, full_name, id');
 
 		if ($this->getLinguagem()) {
 			$this->db->where('language', $this->getLinguagem());
@@ -148,6 +158,15 @@ class Repositorio_model extends CI_Model {
 		}
 
 		return $this->db->get('repositorios')->result();
+
+	}
+
+	public function details() {
+
+		$this->db->select('repositorios.id, name, full_name, html_url, description, created_at, updated_at, homepage, stargazers_count, watchers_count, l.nome as linguagem, has_wiki, forks_count, open_issues_count, license_name, license_url, forks, total_contribuidores, analise_numero_contribuidores, code_lines_available, code_lines, analise_code_lines, main_contributors, analise_principais_contribuidores, releases, analise_maturidade, comentario, insercao_base');
+		$this->db->join('linguagens l', 'repositorios.language = l.id');
+		$this->db->where('node_id', $this->getNodeId());
+		return $this->db->get('repositorios')->row();
 
 	}
 

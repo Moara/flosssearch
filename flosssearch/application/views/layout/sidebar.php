@@ -14,7 +14,7 @@
     </h1>
 
     <div class="col-lg-12 ls-txt-center">
-        <p class="ls-label-text filtro">NÍVEL DE CONTROLE</p>
+        <p class="ls-label-text filtro">LEVEL OF CONTROL</p>
     </div>
 
     <div class="ls-box col-lg-12 ls-txt-center" style="border-bottom: 2px solid #ccc; border-radius: 0px;">
@@ -22,11 +22,11 @@
             <input type="checkbox" id="controle" value="1">
             <label class="ls-switch-label" for="controle" name="label-controle"><span></span></label>
         </div>
-        <p class="ls-label-text"><small id="nivel_controle">NENHUM CONTROLE</small></p>
+        <p class="ls-label-text"><small id="nivel_controle">NO CONTROL</small></p>
     </div>
 
     <label class="ls-label col-lg-12">
-        <p class="ls-label-text filtro">LINGUAGEM</p>
+        <p class="ls-label-text filtro">PROGRAMMING LANGUAGE</p>
         <div class="ls-custom-select">
             <?php
             echo form_dropdown(array('id'=>'linguagem', 'class'=>'ls-select', 'placeholder'=>''), $linguagens, '', '');
@@ -36,13 +36,13 @@
 
     <!-- NUMERO DE CONTRIBUIDORES - ranger slider -->
     <label class="ls-label col-lg-12 controle">
-        <p class="ls-label-text filtro">NÚMERO DE CONTRIBUIDORES</p>
+        <p class="ls-label-text filtro">NUMBER OF CONTRIBUTORS</p>
         <input type="text" class="js-range-slider" id="numero_contribuidores" value="" data-type="double" data-grid="true" data-min="0" data-max="1000" data-from="0" data-to="1000" data-step="1" data-skin="round" />
     </label>
 
     <!-- ACEITACAO DE CONTRIBUIDOR - labels - switch -->
     <div class="ls-box col-lg-12 controle" style="padding-right: 6px;">
-      <p class="ls-label-text filtro" style="display: inline;">ACEITA CONTRIBUIÇÃO</p>
+      <p class="ls-label-text filtro" style="display: inline;">CONTRIBUTOR'S ACCEPTANCE</p>
 
         <div data-ls-module="switchButton" class="ls-switch-btn ls-float-right">
             <input type="checkbox" id="aceita_contribuicao" class="check">
@@ -60,7 +60,7 @@
     </div>
     <!-- COMUNIDADE ATIVA - comentarios - 30 dias - switch -->
     <div class="ls-box col-lg-12 controle" style="padding-right: 6px;">
-      <p class="ls-label-text filtro" style="display: inline;">COMUNIDADE ATIVA</p>
+      <p class="ls-label-text filtro" style="display: inline;">ACTIVE COMMUNITY</p>
 
         <div data-ls-module="switchButton" class="ls-switch-btn ls-float-right">
             <input type="checkbox" id="comunidade_ativa" class="check">
@@ -70,26 +70,26 @@
 
     <!-- TAMANHO DO PROJETO - OPEN - ranger slider -->
     <label class="ls-label col-lg-12">
-        <p class="ls-label-text filtro">TAMANHO DO PROJETO</p>
-        <input type="text" class="js-range-slider" id="tamanho_projeto" value="" data-type="double" data-grid="true" data-min="0" data-max="100000" data-from="0" data-to="100000" data-step="1" data-skin="round" data-prettify-enabled="true" data-prettify-separator="."/>
+        <p class="ls-label-text filtro">PROJECT SIZE</p>
+        <input type="text" class="js-range-slider" id="tamanho_projeto" value="" data-type="double" data-grid="true" data-min="0" data-max="35505858" data-from="0" data-to="35505858" data-step="1" data-skin="round" data-prettify-enabled="true" data-prettify-separator="."/>
     </label>
 
     <!-- MATURIDADE (RELEASES) - ranger slider -->
     <label class="ls-label col-lg-12">
-        <p class="ls-label-text filtro">MATURIDADE</p>
+        <p class="ls-label-text filtro">MATURITY</p>
         <input type="text" class="js-range-slider" id="maturidade" value="" data-type="double" data-grid="true" data-min="0" data-max="1000" data-from="0" data-to="1000" data-step="1" data-skin="round" />
     </label>
 
     <!-- PROJETO ATIVO (qtd commits) - ranger slider -->
     <label class="ls-label col-lg-12 controle">
-        <p class="ls-label-text filtro">PROJETO ATIVO</p>
+        <p class="ls-label-text filtro">ACTIVE PROJECT</p>
         <input type="text" class="js-range-slider" id="projeto_ativo" value="" data-type="double" data-grid="true" data-min="0" data-max="1000" data-from="0" data-to="1000" data-step="1" data-skin="round" />
     </label>
 
     <!-- DOMÍNIO - text -->
     <label class="ls-label col-lg-12">
-        <p class="ls-label-text filtro">DOMÍNIO</p>
-        <p class="ls-label-info">Utilize "," para registrar as tags</p>
+        <p class="ls-label-text filtro">DOMAIN</p>
+        <p class="ls-label-info">Use "," to register the tags</p>
         <input id="dominio" name="dominio" type="text" value=""/>
     </label>
 
@@ -103,7 +103,7 @@
     });
 
     $('#dominio').tagsInput({
-        placeholder: 'Adicionar palavras chaves',
+        placeholder: 'Add key words',
     });
 
     var control = 2;
@@ -113,11 +113,11 @@
         $('#controle').change(function() {
              if ($(this).is(':checked')) {
                 $('.controle').fadeOut();
-                $('#nivel_controle').html('CONTROLE INTERNO');
+                $('#nivel_controle').html('INSIDE CONTROL');
                 control = 1;
             } else {
                 $('.controle').fadeIn();
-                $('#nivel_controle').html('NENHUM CONTROLE');
+                $('#nivel_controle').html('NO CONTROL');
                 control = 2;
           }
         });

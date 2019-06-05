@@ -1,10 +1,11 @@
 <?php 
 defined('BASEPATH') or exit('No direct script access allowed'); 
 header("Cache-Control: private, max-age=3600");
+date_default_timezone_set('America/Bahia');
 ?>
 
 <!DOCTYPE html>
-<html class="ls-theme-royal-blue ls-pre-panel ls-html-nobg ls-browser-chrome ls-window-sm ls-screen-lg">
+<html class="ls-theme-royal-blue <?php if($pre_panel){echo 'ls-pre-panel';} ?> ls-html-nobg ls-browser-chrome ls-window-sm ls-screen-lg">
 <head>
   <title>floss search</title>
   <meta charset="utf-8">

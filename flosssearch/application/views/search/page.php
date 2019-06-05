@@ -28,7 +28,7 @@
 <main class="ls-main">
   <div class="container-fluid">
 
-    <h1 class="ls-title-intro ls-ico-list2 ls-no-bg" id="titulo-pesquisa" style="visibility: hidden;">Resultados</h1>
+    <h1 class="ls-title-intro ls-ico-list2 ls-no-bg" id="titulo-pesquisa" style="visibility: hidden;">Results</h1>
 
     <div class="row" id="repositorios">
 

@@ -57,14 +57,14 @@
       <div class="row bg">
         
         <div class="col-lg-8" style="min-height: 500px;">
-          <h2 style="margin-top: 7rem; margin-bottom: 2rem; text-align: center; line-height: 1.2; letter-spacing: -.02em; font-weight: 300; color: #FFFFFF;">Welcome to <span style="color: #FFFFFF; font-weight: 400;"><strong>f</strong>loss <strong>s</strong>earch</span>. Support in the process of choosing open source projects.</h2>
+          <h2 style="margin-top: 7rem; margin-bottom: 2rem; text-align: center; line-height: 1.2; letter-spacing: -.02em; font-weight: 300; color: #FFFFFF;">Welcome to <span style="color: #FFFFFF; font-weight: 400;"><strong>f</strong>loss <strong>s</strong>earch</span>. Support for selecting open source projects for software engineering education.</h2>
           
           <p style="text-align: center; font-size: 1.8rem; line-height: 3rem; color: #9CADC5; font-weight: 300;">
-            Through FLOSS SEARCH, we seek to assist teachers in the process of choosing open source projects hosted in GitHub used in software engineering education.
+            FLOSS SEARCH is a tool to help teachers in selecting open source projects hosted in GitHub to be used in software engineering education.
           </p>
 
           <div class="col-lg-12" style="text-align: center;">
-            <a class="btn btn-outline-light" style="background-color: #0f6cb9; color: #ffffff; padding: 10px;" href="<?php echo base_url('search'); ?>" role="button">Start the Selection <img src="<?php echo base_url('assets/images/arrow-right.svg'); ?>"></a>
+            <a class="btn btn-outline-light" style="background-color: #0f6cb9; color: #ffffff; padding: 10px;" href="<?php echo base_url('search'); ?>" role="button">Select a project <img src="<?php echo base_url('assets/images/arrow-right.svg'); ?>"></a>
           </div>
 
         </div>
@@ -94,7 +94,7 @@
         <div class="col-lg-8" style="min-height: 500px;">
           
           <p style="margin-top: 5.5rem; text-align: justify; font-size: 1.8rem; line-height: 3rem; color: #9CADC5; font-weight: 300; padding: 10px;">
-            Considering that there is a growing diversity of projects available in software repositories, finding those that have the desired features for integration in the teaching of Software Engineering is not a trivial task. For this purpose, we identified criteria that have been used for project selection and and with this set of criteria helped us to built this tool to assist teachers search for open source projects to be used in their teaching-learning process.
+            In face of the growing diversity of projects available in software repositories, finding those that have the desired features for teaching and learning Software Engineering concepts and practices is not a trivial task. For this purpose, we identified several criteria that have been used for project selection. These criteria helped us to built this tool to help teachers in searching for open source projects to be used in the classroom.
           </p>
 
         </div>
@@ -106,8 +106,8 @@
         <div class="col-lg-8" style="min-height: 500px;">
           
           <p style="margin-top: 5rem; text-align: justify; font-size: 1.8rem; line-height: 3rem; color: #9CADC5; font-weight: 300; padding: 10px;">
-            All projects available here are hosted on GitHub website.
-			We used the Open Hub to identify the number of lines of code criteria, and the GitHub API to implement the scripts used for other criteria. Due to GitHub API's limitations, we developed some scripts and ran them using a set of projects from GitHub, but stored the results locally.
+            All the projects available here are hosted on GitHub website.
+	    We used the Open Hub to collect the number of lines of code, and the GitHub API to implement the scripts used for other criteria. Due to GitHub API's limitations, we developed some scripts and executed them using a set of projects from GitHub, but stored the results locally.
 			Therefore, it is worth to mention that when you run Floss Search, you will be referring to our local Database and not getting real-time information directly from GitHub although we update this information about the projects constantly.
           </p>
 

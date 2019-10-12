@@ -1,5 +1,5 @@
 <?php
-
+header("Refresh:10");
 // multiplas linhas : fetchAll
 // uma linha        : fetch
 // FETCH_ASSOC

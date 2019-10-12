@@ -71,19 +71,19 @@
     <!-- TAMANHO DO PROJETO - OPEN - ranger slider -->
     <label class="ls-label col-lg-12">
         <p class="ls-label-text filtro">PROJECT SIZE</p>
-        <input type="text" class="js-range-slider" id="tamanho_projeto" value="" data-type="double" data-grid="true" data-min="0" data-max="35505858" data-from="0" data-to="35505858" data-step="1" data-skin="round" data-prettify-enabled="true" data-prettify-separator="."/>
+        <input type="text" class="js-range-slider" id="tamanho_projeto" value="" data-type="double" data-grid="true" data-min="0" data-max="500000" data-from="0" data-to="500000" data-step="1" data-skin="round" data-prettify-enabled="true" data-prettify-separator="."/>
     </label>
 
     <!-- MATURIDADE (RELEASES) - ranger slider -->
     <label class="ls-label col-lg-12">
         <p class="ls-label-text filtro">MATURITY</p>
-        <input type="text" class="js-range-slider" id="maturidade" value="" data-type="double" data-grid="true" data-min="0" data-max="1000" data-from="0" data-to="1000" data-step="1" data-skin="round" />
+        <input type="text" class="js-range-slider" id="maturidade" value="" data-type="double" data-grid="true" data-min="0" data-max="100" data-from="0" data-to="1000" data-step="1" data-skin="round" />
     </label>
 
     <!-- PROJETO ATIVO (qtd commits) - ranger slider -->
     <label class="ls-label col-lg-12 controle">
         <p class="ls-label-text filtro">ACTIVE PROJECT</p>
-        <input type="text" class="js-range-slider" id="projeto_ativo" value="" data-type="double" data-grid="true" data-min="0" data-max="1000" data-from="0" data-to="1000" data-step="1" data-skin="round" />
+        <input type="text" class="js-range-slider" id="projeto_ativo" value="" data-type="double" data-grid="true" data-min="0" data-max="100" data-from="0" data-to="1000" data-step="1" data-skin="round" />
     </label>
 
     <!-- DOMÍNIO - text -->

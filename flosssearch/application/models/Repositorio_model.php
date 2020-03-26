@@ -16,14 +16,16 @@ class Repositorio_model extends CI_Model {
 	// private $data_alteracao;
 
 	private $linguagem;
-	private $tamanho_projeto;
+	private $tamanho_projeto_min;
+	private $tamanho_projeto_max;
 	private $maturidade;
 	private $dominio;
 
 	private $aceita_contribuicao;
 	private $issue_tracker;
 	private $comunidade_ativa;
-	private $numero_contribuidores;
+	private $numero_contribuidores_min;
+	private $numero_contribuidores_max;
 	private $projeto_ativo;
 
 	private $node_id;
@@ -40,11 +42,19 @@ class Repositorio_model extends CI_Model {
 		return $this;
 	}
 
-	public function getTamanhoProjeto() {
-		return $this->tamanho_projeto;
+	public function getTamanhoProjetoMin() {
+		return $this->tamanho_projeto_min;
 	}
-	public function setTamanhoProjeto($tamanho_projeto) {
-		$this->tamanho_projeto = $tamanho_projeto;
+	public function setTamanhoProjetoMin($tamanho_projeto_min) {
+		$this->tamanho_projeto = $tamanho_projeto_min;
+		return $this;
+	}
+
+	public function getTamanhoProjetoMax() {
+		return $this->tamanho_projeto_max;
+	}
+	public function setTamanhoProjetoMax($tamanho_projeto_max) {
+		$this->tamanho_projeto = $tamanho_projeto_max;
 		return $this;
 	}
 
@@ -88,11 +98,19 @@ class Repositorio_model extends CI_Model {
 		return $this;
 	}
 
-	public function getNumeroContribuidores() {
-		return $this->numero_contribuidores;
+	public function getNumeroContribuidoresMin() {
+		return $this->numero_contribuidores_min;
 	}
-	public function setNumeroContribuidores($numero_contribuidores) {
-		$this->numero_contribuidores = $numero_contribuidores;
+	public function setNumeroContribuidoresMin($numero_contribuidores_min) {
+		$this->numero_contribuidores_min = $numero_contribuidores_min;
+		return $this;
+	}
+
+	public function getNumeroContribuidoresMax() {
+		return $this->numero_contribuidores_max;
+	}
+	public function setNumeroContribuidoresMax($numero_contribuidores_max) {
+		$this->numero_contribuidores_max = $numero_contribuidores_max;
 		return $this;
 	}
 
@@ -112,20 +130,25 @@ class Repositorio_model extends CI_Model {
 		return $this;
 	}
 
-	public function search() {
+	public function search($switch_maturidade = NULL, $switch_projeto_ativo = NULL) {
 
-		$this->db->select('node_id, name, html_url, description, total_contribuidores, code_lines, quantidade_commits, data_ultimo_comentario, full_name, id');
+		$this->db->select('node_id, name, html_url, description, total_contribuidores, code_lines, quantidade_commits, data_ultimo_comentario, full_name, id, releases');
 
 		if ($this->getLinguagem()) {
 			$this->db->where('language', $this->getLinguagem());
 		}
 
-		if ($this->getTamanhoProjeto()) {
-			$this->db->where('code_lines BETWEEN "'.$this->getTamanhoProjeto()[0].'" AND "'.$this->getTamanhoProjeto()[1].'"');
-			// $this->db->where('code_lines BETWEEN '.$this->getTamanhoProjeto()[0].' AND '.$this->getTamanhoProjeto()[1]);
+		if ($this->getTamanhoProjetoMin()) {
+			$this->db->where('code_lines <=', $this->getTamanhoProjetoMin());
 		}
 
-		if ($this->getMaturidade()) {
+		if ($this->getTamanhoProjetoMax()) {
+			$this->db->where('code_lines >=', $this->getTamanhoProjetoMax());
+		}
+
+		if($switch_maturidade){
+			$this->db->where("releases >", 100);
+		} else if ($this->getMaturidade()) {
 			$this->db->where("releases BETWEEN '".$this->getMaturidade()[0]."' AND '".$this->getMaturidade()[1]."'");
 		}
 
@@ -148,15 +171,21 @@ class Repositorio_model extends CI_Model {
 			$this->db->where('data_ultimo_comentario >=', $data);
 		}
 		
-		if ($this->getNumeroContribuidores()) {
-			$this->db->where('total_contribuidores BETWEEN "'.$this->getNumeroContribuidores()[0].'" AND "'.$this->getNumeroContribuidores()[1].'"');
+		if ($this->getNumeroContribuidoresMin()) {
+			$this->db->where('total_contribuidores <=', $this->getNumeroContribuidoresMin());
+		}
+
+		if ($this->getNumeroContribuidoresMax()) {
+			$this->db->where('total_contribuidores >=', $this->getNumeroContribuidoresMax());
 		}
 
 		// qtd commits 30 dias
-		if ($this->getProjetoAtivo()) {
+		if($switch_projeto_ativo){
+			$this->db->where("quantidade_commits >", 100);
+		} else if ($this->getProjetoAtivo()) {
 			$this->db->where('quantidade_commits BETWEEN "'.$this->getProjetoAtivo()[0].'" AND "'.$this->getProjetoAtivo()[1].'"');
 		}
-
+		
 		return $this->db->get('repositorios')->result();
 
 	}

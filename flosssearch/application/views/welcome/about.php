@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
-  <title>floss search</title>
+  <title>FlossSearch.Edu</title>
 
   <style type="text/css">
     .text-blue {
@@ -42,7 +42,7 @@
         <div class="row">
 
             <div class="col" style="font-size: 3rem; padding: 20px;">
-              <h1 class="text-blue"><strong>f</strong>loss <strong>s</strong>earch</h1>
+              <h1 class="text-blue"><strong>FlossSearch</strong>.Edu</h1>
             </div>
             <div class="col">
               <a class="btn btn-outline-dark float-right" style="margin-top: 25px;" href="<?php echo base_url(''); ?>" role="button">Home</a>

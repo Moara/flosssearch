@@ -42,9 +42,13 @@ class Search extends CI_Controller {
 			$linguagem = $this->input->post('linguagem') ? $this->input->post('linguagem') : '';
 			$this->repositorio_model->setLinguagem($linguagem);
 			
-			$tamanho_projeto = $this->input->post('tamanho_projeto') ? $this->input->post('tamanho_projeto') : '';
-			$tamanho_projeto = explode(';', $tamanho_projeto);
-			$this->repositorio_model->setTamanhoProjeto($tamanho_projeto);
+			if($this->input->post('tamanho_projeto_min')){
+				$this->repositorio_model->setTamanhoProjetoMin($this->input->post('tamanho_projeto_min'));
+			}
+
+			if($this->input->post('tamanho_projeto_max')){
+				$this->repositorio_model->setTamanhoProjetoMax($this->input->post('tamanho_projeto_max'));
+			}
 			
 			$maturidade = $this->input->post('maturidade') ? $this->input->post('maturidade') : '';
 			$maturidade = explode(';', $maturidade);
@@ -53,16 +57,22 @@ class Search extends CI_Controller {
 			$dominio = $this->input->post('dominio') ? $this->input->post('dominio') : '';
 			$this->repositorio_model->setDominio($dominio);
 
-			$resultado = $this->rendering($this->repositorio_model->search());
+			$switch_maturidade = $this->input->post('switch_maturidade') ? $this->input->post('switch_maturidade') : '';
+
+			$resultado = $this->rendering($this->repositorio_model->search($switch_maturidade));
 
 		} else {
 
 			$linguagem = $this->input->post('linguagem') ? $this->input->post('linguagem') : '';
 			$this->repositorio_model->setLinguagem($linguagem);
 			
-			$tamanho_projeto = $this->input->post('tamanho_projeto') ? $this->input->post('tamanho_projeto') : '';
-			$tamanho_projeto = explode(';', $tamanho_projeto);
-			$this->repositorio_model->setTamanhoProjeto($tamanho_projeto);
+			if($this->input->post('tamanho_projeto_min')){
+				$this->repositorio_model->setTamanhoProjetoMin($this->input->post('tamanho_projeto_min'));
+			}
+
+			if($this->input->post('tamanho_projeto_max')){
+				$this->repositorio_model->setTamanhoProjetoMax($this->input->post('tamanho_projeto_max'));
+			}
 			
 			$maturidade = $this->input->post('maturidade') ? $this->input->post('maturidade') : '';
 			$maturidade = explode(';', $maturidade);
@@ -80,15 +90,22 @@ class Search extends CI_Controller {
 			$comunidade_ativa = $this->input->post('comunidade_ativa') ? $this->input->post('comunidade_ativa') : '';
 			$this->repositorio_model->setComunidadeAtiva($comunidade_ativa);
 
-			$numero_contribuidores = $this->input->post('numero_contribuidores') ? $this->input->post('numero_contribuidores') : '';
-			$numero_contribuidores = explode(';', $numero_contribuidores);
-			$this->repositorio_model->setNumeroContribuidores($numero_contribuidores);
+			if($this->input->post('numero_contribuidores_min')){
+				$this->repositorio_model->setNumeroContribuidoresMin($this->input->post('numero_contribuidores_min'));
+			}
+
+			if($this->input->post('numero_contribuidores_max')){
+				$this->repositorio_model->setNumeroContribuidoresMax($this->input->post('numero_contribuidores_max'));
+			}
 
 			$projeto_ativo = $this->input->post('projeto_ativo') ? $this->input->post('projeto_ativo') : '';
 			$projeto_ativo = explode(';', $projeto_ativo);
 			$this->repositorio_model->setProjetoAtivo($projeto_ativo);
 
-			$resultado = $this->rendering($this->repositorio_model->search());
+			$switch_maturidade = $this->input->post('switch_maturidade') ? $this->input->post('switch_maturidade') : '';
+			$switch_projeto_ativo = $this->input->post('switch_projeto_ativo') ? $this->input->post('switch_projeto_ativo') : '';
+
+			$resultado = $this->rendering($this->repositorio_model->search($switch_maturidade, $switch_projeto_ativo));
 
 		}
 
@@ -104,10 +121,12 @@ class Search extends CI_Controller {
 
 			foreach ($dados as $row) {
 			
-			$repositorios .=
+			$repositorios .= 
 			'<div class="ls-box col-lg-12 card">
 
 		        <div class="ls-box">
+
+		        	<div onclick="adicionar_carrinho('.$row->node_id.')"><span class="ls-ico-radio-unchecked">Select Project</span></div>
 
 		          <div class="ls-title">
 		            <a href="https://github.com/'.$row->full_name.'" target="_blank" aria-label="GitHub" class="ls-float-right ls-tooltip-top">
@@ -126,7 +145,7 @@ class Search extends CI_Controller {
 		            <p><small>'.$row->total_contribuidores.'</small></p>
 		          </div>
 
-		          <div class="col-lg-3 ls-no-padding">
+		          <div class="col-lg-2 ls-no-padding">
 		            <h6 class="card-title text-uppercase text-muted mb-2">Code Lines</h6>
 		            <p><small>'.$row->code_lines.'</small></p>
 		          </div>
@@ -134,11 +153,16 @@ class Search extends CI_Controller {
 		          <div class="col-lg-3 ls-no-padding">
 		            <h6 class="card-title text-uppercase text-muted mb-2">Commits last 30 days</h6>
 		            <p><small>'.$row->quantidade_commits.'</small></p>
-		          </div>
-
-		          <div class="col-lg-3 ls-no-padding">
+				  </div>
+				  
+				  <div class="col-lg-2 ls-no-padding">
 		            <h6 class="card-title text-uppercase text-muted mb-2">Last Comment</h6>
 		            <p><small>'.date('d/m/Y H:i:s', strtotime($row->data_ultimo_comentario)).'</small></p>
+		          </div>
+
+		          <div class="col-lg-2 ls-no-padding">
+		            <h6 class="card-title text-uppercase text-muted mb-2">Releases</h6>
+		            <p><small>'.$row->releases.'</small></p>
 		          </div>';
 
 		          $this->load->model('label_model');

@@ -60,7 +60,7 @@
           <h2 style="margin-top: 7rem; margin-bottom: 2rem; text-align: center; line-height: 1.2; letter-spacing: -.02em; font-weight: 300; color: #FFFFFF;">Welcome to <span style="color: #FFFFFF; font-weight: 400;"><strong>f</strong>loss <strong>s</strong>earch</span>. Support in the process of choosing open source projects.</h2>
           
           <p style="text-align: center; font-size: 1.8rem; line-height: 3rem; color: #9CADC5; font-weight: 300;">
-            Through FlossSearch.Edu, we seek to assist teachers in the process of choosing open source projects hosted in GitHub used in software engineering education.
+            Through FLOSS SEARCH, we seek to assist teachers in the process of choosing open source projects hosted in GitHub used in software engineering education.
           </p>
 
           <div class="col-lg-12" style="text-align: center;">

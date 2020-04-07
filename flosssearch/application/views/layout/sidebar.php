@@ -13,6 +13,17 @@
         <a href="<?php echo base_url(''); ?>" class="text-blue"><strong>FlossSearch</strong>.Edu</a>
     </h1>
 
+    <div class="col-lg-12 ls-txt-center" style="display: none;" id="buttons">
+        <!-- <p class="ls-label-text filtro">LEVEL OF CONTROL</p> -->
+        <!-- <button class="button-format download ls-ico-cloud-download"></button> -->
+        <button id="download" class="ls-tag-success button-format"><span class="ls-ico-cloud-download"></span>Download Selection</button>
+
+        <!-- <button class="button-format clean ls-ico-remove"></button> -->
+        <button id="clear" class="ls-tag-danger button-format"><span class="ls-ico-remove"></span>Clear Selection</button>
+    <hr>
+    </div>
+
+
     <div class="col-lg-12 ls-txt-center">
         <p class="ls-label-text filtro">LEVEL OF CONTROL</p>
     </div>
@@ -25,7 +36,7 @@
         <p class="ls-label-text"><small id="nivel_controle">NO CONTROL</small></p>
     </div>
 
-    <label class="ls-label col-lg-12">
+    <label class="ls-label col-lg-12" style="display: inline-block!important; width: 100%;">
         <p class="ls-label-text filtro"> <span title="Programming language predominant in that project.">PROGRAMMING LANGUAGE</span></p>
         <div class="ls-custom-select">
             <?php
@@ -190,6 +201,7 @@
         });
 
         $('#tamanho_projeto_min').keyup(function() {
+            console.log('buscando...');
           clearTimeout(typingTimer);
             typingTimer = setTimeout(pesquisar, doneTypingInterval);
         });
@@ -211,15 +223,37 @@ function pesquisar(){
     // console.log('pesquisando');
     // console.log($('#tamanho_projeto_min').val());
 
-    let dados = {};
+    var linguagem = '';
+    var tamanho_projeto_min = '';
+    var tamanho_projeto_max = '';
+    var maturidade = '';
+    var dominio = '';
+    var switch_maturidade = '';
+    var switch_maturidade = '';
+    var switch_projeto_ativo = '';
+
+    var linguagem = '';
+    var tamanho_projeto_min = '';
+    var tamanho_projeto_max = '';
+    var maturidade = '';
+    var dominio = '';
+
+    var aceita_contribuicao = '';
+    var issue_tracker = '';
+    var comunidade_ativa = '';
+    var numero_contribuidores_min = '';
+    var numero_contribuidores_max = '';
+    var projeto_ativo = '';
+
+    dados = {};
 
     if (control == 1) {
-        let linguagem = $('#linguagem').val();
-        let tamanho_projeto_min = $('#tamanho_projeto_min').val();
-        let tamanho_projeto_max = $('#tamanho_projeto_max').val();
-        let maturidade = $('#maturidade').val();
-        let dominio = $('#dominio').val();
-        let switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
+        linguagem = $('#linguagem').val();
+        tamanho_projeto_min = $('#tamanho_projeto_min').val();
+        tamanho_projeto_max = $('#tamanho_projeto_max').val();
+        maturidade = $('#maturidade').val();
+        dominio = $('#dominio').val();
+        switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
 
         // console.log('linguagem: '+linguagem);
         // console.log('tamanho_projeto: '+tamanho_projeto);
@@ -231,25 +265,25 @@ function pesquisar(){
     } else {
 
          
-        let switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
-        let switch_projeto_ativo = $('#switch_projeto_ativo').is(':checked') ? 1 : '';
+        switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
+        switch_projeto_ativo = $('#switch_projeto_ativo').is(':checked') ? 1 : '';
 
-        let linguagem = $('#linguagem').val();
-        let tamanho_projeto_min = $('#tamanho_projeto_min').val();
-        let tamanho_projeto_max = $('#tamanho_projeto_max').val();
-        let maturidade = $('#maturidade').val();
-        let dominio = $('#dominio').val();
+        linguagem = $('#linguagem').val();
+        tamanho_projeto_min = $('#tamanho_projeto_min').val();
+        tamanho_projeto_max = $('#tamanho_projeto_max').val();
+        maturidade = $('#maturidade').val();
+        dominio = $('#dominio').val();
 
-        let aceita_contribuicao = $('#aceita_contribuicao').is(':checked') ? 1 : '';
-        let issue_tracker = $('#issue_tracker').is(':checked') ? 1 : '';
-        let comunidade_ativa = $('#comunidade_ativa').is(':checked') ? 1 : '';
-        let numero_contribuidores_min = $('#numero_contribuidores_min').val();
-        let numero_contribuidores_max = $('#numero_contribuidores_max').val();
-        let projeto_ativo = $('#projeto_ativo').val();
+        aceita_contribuicao = $('#aceita_contribuicao').is(':checked') ? 1 : '';
+        issue_tracker = $('#issue_tracker').is(':checked') ? 1 : '';
+        comunidade_ativa = $('#comunidade_ativa').is(':checked') ? 1 : '';
+        numero_contribuidores_min = $('#numero_contribuidores_min').val();
+        numero_contribuidores_max = $('#numero_contribuidores_max').val();
+        projeto_ativo = $('#projeto_ativo').val();
 
         dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, aceita_contribuicao: aceita_contribuicao, issue_tracker: issue_tracker, comunidade_ativa: comunidade_ativa, numero_contribuidores_min: numero_contribuidores_min, numero_contribuidores_max: numero_contribuidores_max, projeto_ativo: projeto_ativo, switch_maturidade: switch_maturidade, switch_projeto_ativo: switch_projeto_ativo };
     }
-
+    
     // console.log('...');
     // console.log(numero_contribuidores_min);
 
@@ -271,5 +305,76 @@ function pesquisar(){
 
 }
 
+let projetos = [];
+
+$(document).on('click', ".add" , function () {
+    console.log($(this).attr("id"));
+
+    if($(this).attr('click') == 0){
+        $(this).html('<span class="ls-ico-radio-checked">Selected Project</span>');
+        $(this).attr("click", 1);
+
+        projetos.push($(this).attr("id"));
+        console.table(projetos);
+
+        if(projetos.length == 1){
+            $('#buttons').css('display', 'inline');
+        }
+
+    } else {
+        $(this).html('<span class="ls-ico-radio-unchecked">Select Project</span>');
+        $(this).attr("click", 0);
+
+        projetos.splice($.inArray($(this).attr("id"), projetos), 1);
+        console.table(projetos);
+
+        if(projetos.length == 0){
+            $('#buttons').css('display', 'none');
+        }
+    }
+});
+
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+$(document).on('click', "#download" , function () {
+    // console.log(projetos);
+    $.ajax({
+        url: '<?php echo base_url('search/projetos_selecionados'); ?>',
+        type: 'POST',
+        dataType : "json",
+        data: { projetos: projetos },
+        success: function(data){
+            // console.table(data);
+            download('project.txt', 'PARÂMETROS: '+JSON.stringify(dados)+'\n\n\nPROJETOS: '+JSON.stringify(data));
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            // console.log(textStatus);
+        } 
+    });
+
+});
+
+$(document).on('click', "#clear" , function () {
+
+    $('.add').html('<span class="ls-ico-radio-unchecked">Select Project</span>');
+    $('.add').attr("click", 0);
+
+    console.table(projetos);
+
+    console.table('limpando...');
+    $('#buttons').css('display', 'none');
+    projetos = [];
+});
 
 </script>

@@ -126,7 +126,7 @@ class Search extends CI_Controller {
 
 		        <div class="ls-box">
 
-		        	<div onclick="adicionar_carrinho('.$row->node_id.')"><span class="ls-ico-radio-unchecked">Select Project</span></div>
+		        	<div id="'.$row->node_id.'" style="cursor:pointer;" class="add" click="0"><span class="ls-ico-radio-unchecked">Select Project</span></div>
 
 		          <div class="ls-title">
 		            <a href="https://github.com/'.$row->full_name.'" target="_blank" aria-label="GitHub" class="ls-float-right ls-tooltip-top">
@@ -224,6 +224,15 @@ class Search extends CI_Controller {
 			redirect('search');
 		}
 
+	}
+
+	public function projetos_selecionados(){
+
+		$this->load->model('repositorio_model');
+
+		$resultado = $this->repositorio_model->projetos_selecionados($this->input->post('projetos'));
+
+		echo json_encode($resultado);
 	}
 
 }

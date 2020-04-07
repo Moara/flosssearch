@@ -46,7 +46,7 @@ class Repositorio_model extends CI_Model {
 		return $this->tamanho_projeto_min;
 	}
 	public function setTamanhoProjetoMin($tamanho_projeto_min) {
-		$this->tamanho_projeto = $tamanho_projeto_min;
+		$this->tamanho_projeto_min = $tamanho_projeto_min;
 		return $this;
 	}
 
@@ -54,7 +54,7 @@ class Repositorio_model extends CI_Model {
 		return $this->tamanho_projeto_max;
 	}
 	public function setTamanhoProjetoMax($tamanho_projeto_max) {
-		$this->tamanho_projeto = $tamanho_projeto_max;
+		$this->tamanho_projeto_max = $tamanho_projeto_max;
 		return $this;
 	}
 
@@ -131,7 +131,7 @@ class Repositorio_model extends CI_Model {
 	}
 
 	public function search($switch_maturidade = NULL, $switch_projeto_ativo = NULL) {
-
+		
 		$this->db->select('node_id, name, html_url, description, total_contribuidores, code_lines, quantidade_commits, data_ultimo_comentario, full_name, id, releases');
 
 		if ($this->getLinguagem()) {
@@ -139,11 +139,11 @@ class Repositorio_model extends CI_Model {
 		}
 
 		if ($this->getTamanhoProjetoMin()) {
-			$this->db->where('code_lines <=', $this->getTamanhoProjetoMin());
+			$this->db->where('code_lines >=', $this->getTamanhoProjetoMin());
 		}
 
 		if ($this->getTamanhoProjetoMax()) {
-			$this->db->where('code_lines >=', $this->getTamanhoProjetoMax());
+			$this->db->where('code_lines <=', $this->getTamanhoProjetoMax());
 		}
 
 		if($switch_maturidade){
@@ -172,11 +172,11 @@ class Repositorio_model extends CI_Model {
 		}
 		
 		if ($this->getNumeroContribuidoresMin()) {
-			$this->db->where('total_contribuidores <=', $this->getNumeroContribuidoresMin());
+			$this->db->where('total_contribuidores >=', $this->getNumeroContribuidoresMin());
 		}
 
 		if ($this->getNumeroContribuidoresMax()) {
-			$this->db->where('total_contribuidores >=', $this->getNumeroContribuidoresMax());
+			$this->db->where('total_contribuidores <=', $this->getNumeroContribuidoresMax());
 		}
 
 		// qtd commits 30 dias
@@ -198,5 +198,14 @@ class Repositorio_model extends CI_Model {
 		return $this->db->get('repositorios')->row();
 
 	}
+
+	public function projetos_selecionados($projetos) {
+
+		$this->db->select('name, html_url, full_name');
+		$this->db->where_in('node_id', $projetos);		
+		return $this->db->get('repositorios')->result();
+
+	}
+
 
 }

@@ -121,3 +121,17 @@ p.filtro{
 .card .ls-box .ls-title a{
     color: #0F6CB9!important;
 }
+
+span.ls-ico-cloud-download::before, span.ls-ico-remove::before{
+    font-size: 12px!important;
+}
+
+.button-format{
+    border-style: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

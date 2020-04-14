@@ -222,6 +222,9 @@ function pesquisar(){
 
     // console.log('pesquisando');
     // console.log($('#tamanho_projeto_min').val());
+    console.table('limpando...');
+    $('#buttons').css('display', 'none');
+    projetos = [];
 
     var linguagem = '';
     var tamanho_projeto_min = '';
@@ -247,6 +250,8 @@ function pesquisar(){
 
     dados = {};
 
+    config = {};
+
     if (control == 1) {
         linguagem = $('#linguagem').val();
         tamanho_projeto_min = $('#tamanho_projeto_min').val();
@@ -260,7 +265,17 @@ function pesquisar(){
         // console.log('maturidade: '+maturidade);
         // console.log('dominio: '+dominio);
 
-        dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, switch_maturidade: switch_maturidade };        
+        dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, switch_maturidade: switch_maturidade };
+
+
+        linguagem = $('#linguagem').val();
+        tamanho_projeto_min = $('#tamanho_projeto_min').val();
+        tamanho_projeto_max = $('#tamanho_projeto_max').val();
+        maturidade = $('#maturidade').val();
+        dominio = $('#dominio').val();
+        switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
+
+        config = { CONTROL: 'NO CONTROL', LANGUAGE: $('#linguagem option:selected').text() ? $('#linguagem option:selected').text() : 'UNINFORMED', PROJECT_SIZE_MIN: tamanho_projeto_min ? tamanho_projeto_min : 'UNINFORMED', PROJECT_SIZE_MAX: tamanho_projeto_max ? tamanho_projeto_max : 'UNINFORMED', MATURITY: maturidade ? maturidade : 'UNINFORMED', DOMAIN: dominio ? dominio : 'UNINFORMED', DOMAIN_OVER_100: switch_maturidade ? switch_maturidade : 'UNINFORMED' };
 
     } else {
 
@@ -282,6 +297,9 @@ function pesquisar(){
         projeto_ativo = $('#projeto_ativo').val();
 
         dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, aceita_contribuicao: aceita_contribuicao, issue_tracker: issue_tracker, comunidade_ativa: comunidade_ativa, numero_contribuidores_min: numero_contribuidores_min, numero_contribuidores_max: numero_contribuidores_max, projeto_ativo: projeto_ativo, switch_maturidade: switch_maturidade, switch_projeto_ativo: switch_projeto_ativo };
+
+
+        config = { CONTROL: 'INSIDE CONTROL', LANGUAGE: $('#linguagem option:selected').text() ? $('#linguagem option:selected').text() : 'UNINFORMED', NUMBER_CONTRIBUTOR_MIN: tamanho_projeto_min ? tamanho_projeto_min : 'UNINFORMED', NUMBER_CONTRIBUTOR_MAX: tamanho_projeto_max ? tamanho_projeto_max : 'UNINFORMED', MATURITY: maturidade ? maturidade : 'UNINFORMED', DOMAIN: dominio ? dominio : 'UNINFORMED', CONTRIBUTORS_ACCEPTANCE: aceita_contribuicao ? aceita_contribuicao : 'UNINFORMED', ISSUE_TRACKER: issue_tracker ? issue_tracker : 'UNINFORMED', ACTIVE_COMUNITY: comunidade_ativa ? comunidade_ativa : 'UNINFORMED', NUMBER_CONTRIBUTORS_MIN: numero_contribuidores_min ? numero_contribuidores_min : 'UNINFORMED', NUMBER_CONTRIBUTORS_MAX: numero_contribuidores_max ? numero_contribuidores_max : 'UNINFORMED', ACTIVE_PROJECT: projeto_ativo ? projeto_ativo : 'UNINFORMED', DOMAIN_OVER_100: switch_maturidade ? switch_maturidade : 'UNINFORMED', ACTIVE_PROJECT_OVER_100: switch_projeto_ativo ? switch_projeto_ativo : 'UNINFORMED' };
     }
     
     // console.log('...');
@@ -356,7 +374,7 @@ $(document).on('click', "#download" , function () {
         data: { projetos: projetos },
         success: function(data){
             // console.table(data);
-            download('project.txt', 'PARÂMETROS: '+JSON.stringify(dados)+'\n\n\nPROJETOS: '+JSON.stringify(data));
+            download('projects.txt', 'PARAMETERS: '+JSON.stringify(config)+'\n\n\nPROJECTS: '+JSON.stringify(data));
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             // console.log(textStatus);

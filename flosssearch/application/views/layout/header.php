@@ -1,14 +1,16 @@
-<div class="ls-topbar ls-topbar-gray">
+<div class="ls-topbar ls-topbar-gray" style="text-align: right; padding: 20px;">
+  
+  <div style="padding: 20px 50px;">
+    <a style="border: 1px solid #343a40; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; display: inline-block; font-weight: 400; color: #212529; text-align: center; vertical-align: middle;" class="btn btn-outline-dark float-right" target="_blank" style="margin-top: 25px;" href="<?php echo base_url('welcome/about'); ?>" role="button">About</a>
+  </div>
 
     <!-- Barra de Notificações -->
     <div class="ls-notification-topbar">
 
       <!-- Links de apoio -->
         <!-- <div class="ls-alerts-list">
-          <a href="#" class="ls-ico-bell-o" data-counter="8" data-ls-module="topbarCurtain" data-target="#ls-notification-curtain"><span>Notificações</span></a>
-          <a href="#" class="ls-ico-bullhorn" data-ls-module="topbarCurtain" data-target="#ls-help-curtain"><span>Ajuda</span></a>
-          <a href="#" class="ls-ico-question" data-ls-module="topbarCurtain" data-target="#ls-feedback-curtain"><span>Sugestões</span></a>
-      </div> -->
+          
+        </div> -->
 
       <!-- Dropdown com detalhes da conta de usuário -->
         <!-- <div data-ls-module="dropdown" class="ls-dropdown ls-user-account">

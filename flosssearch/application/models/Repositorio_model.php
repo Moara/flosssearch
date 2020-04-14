@@ -201,7 +201,7 @@ class Repositorio_model extends CI_Model {
 
 	public function projetos_selecionados($projetos) {
 
-		$this->db->select('name, html_url, full_name');
+		$this->db->select('name, html_url, code_lines, description');
 		$this->db->where_in('node_id', $projetos);		
 		return $this->db->get('repositorios')->result();
 

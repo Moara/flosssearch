@@ -10,6 +10,33 @@
 			    	<p class="ls-float-none-xs">Created at: <strong><?php echo date('d/m/Y H:i:s', strtotime($projeto->created_at)); ?></strong></p>
 			    	<p class="ls-float-none-xs">Updated at: <strong><?php echo date('d/m/Y H:i:s', strtotime($projeto->updated_at)); ?></strong></p>
 			    </div>
+
+			    <!-- <?php //if(isset($this->session->userdata['usuario'])){ ?> -->
+
+				    <!-- <?php //if($classificacao){ ?> -->
+
+				    <!-- <?php //} else { ?> -->
+
+				    	<p style="font-size: 1rem; text-align: center;">
+			        		Classification
+			      		</p>
+
+				    	<div class="col-lg-12" style="text-align: center; font-size: 30px; color: #ccc;">
+					    	<span class="ls-ico-star estrela" id="1" style="cursor: pointer;"></span>
+					    	<span class="ls-ico-star estrela" id="2" style="cursor: pointer;"></span>
+					    	<span class="ls-ico-star estrela" id="3" style="cursor: pointer;"></span>
+					    	<span class="ls-ico-star estrela" id="4" style="cursor: pointer;"></span>
+					    	<span class="ls-ico-star estrela" id="5" style="cursor: pointer;"></span>
+					    </div>
+					    <p style="font-size: 1rem; text-align: center;" id="votos">
+			        		0 votes
+			      		</p>
+
+				    <!-- <?php //} ?> -->
+
+			    <!-- <?php //} ?> -->
+
+
 			    <div class="col-md-12 col-sm-12" style="text-align: center; padding: 10px;">
 			      <p style="font-size: 1.3rem;">
 			        <?php echo $projeto->description; ?>
@@ -175,5 +202,217 @@
 			<?php } ?>
 
   		</div>
-  	</div>
+
+
+
+  	<!-- </div> -->
+
+
+
+
+
+
+<!-- <div class="container"> -->
+	<div class="row" style="width: 100%;">
+		<div class="col-lg-12 ls-box ls-board-box">
+			<header class="ls-info-header">
+				<h2 class="ls-title-3">Posts</h2>
+			</header>
+
+<?php if(isset($this->session->userdata['usuario'])){ ?>
+
+			<div class="row">
+				<label class="ls-label" style="width: 100%; padding: 20px; ">
+					<span class="ls-label-text" style="margin-bottom: 10px;">Leave a message here for the community: </span>
+			   		<textarea rows="4" id="comentario"></textarea>
+				</label>
+			</div>
+
+	  		<button type="button" id="save" class="ls-btn-primary ls-float-right">Save</button>
+		<br>
+		<hr>
+
+<?php } ?>
+
+
+
+		<div class="col-lg-12" id="mensagens">
+
+			<?php foreach ($comentarios as $b) { ?>
+
+			      <div class="row">
+			      	<div class="col-lg-10"><p><strong><?php echo date('d/m/Y H:i:s', strtotime($b->data_cadastro)) .' - '.$b->nome; ?></strong></p></div>
+				      
+				    <?php if(isset($this->session->userdata['usuario'])){ ?>
+				    <?php if($b->id_usuario == $this->session->userdata['usuario']['id']){ ?>
+				    <div class="col-lg-2" style="color: red; text-align: right; padding: 0px 30px; cursor: pointer; font-size: 20px;"><span class="ls-ico-remove ls-ico-right" onclick="remover_comentario(<?php echo $b->id; ?>)"></span></div>
+					<?php }} ?>
+
+			      </div>
+			      <div class="row">
+			      	<div class="col-lg-12">
+			      		<p class="ls-break-text" style="text-align: justify;"><?php echo $b->comentario; ?></p>
+			      		<hr>
+			      	</div>
+			      </div>
+
+			<?php } ?>
+		</div>
+
+	</div>
+	</div>
+	
+
+</div>
+
 </main>
+
+<script type="text/javascript">
+	var validacao = true;
+
+	if("<?php echo $votou; ?>" == 'S'){
+		validacao = false;          		
+	}
+
+
+	$(document).ready(function() {
+		valida_classificacao();
+	});
+	
+	$(document).on('mouseover', ".estrela" , function () {
+
+		if(validacao){
+			for (var i = 1; i <= $(this).attr('id'); i++) { 
+				$('#'+i).css('color', '#f9ca24');
+			}
+		}
+
+	});
+
+	$(document).on('mouseout', ".estrela" , function () {
+		if(validacao){
+			$('.estrela').css('color', '#ccc');
+		}
+	});
+
+	$(document).on('click', ".estrela" , function () {
+		if(validacao){
+			var pontuacao = $(this).attr('id');
+			validacao = false;
+			// console.log(pontuacao);
+			
+			$.ajax({
+		        url: '<?php echo base_url('search/classificacao'); ?>',
+		        type: 'POST',
+		        dataType : "json",
+		        data: { id: <?php echo $projeto->id; ?>, pontuacao : pontuacao },
+		        success: function(data){
+		        	// TRAZER A NOVA MÉDIA E PINTAR AS ESTRELAS
+		        	if(data){
+		        		var pontos = Math.round(data.pontuacao);
+
+			        	$('.estrela').css('color', '#ccc');
+		          		
+		          		for (var i = 1; i <= pontos; i++) { 
+							$('#'+i).css('color', '#f9ca24');
+						}
+
+			        	$('#votos').html('');
+		          		$('#votos').html(data.votos);
+		        	}
+		        },
+		        error: function(XMLHttpRequest, textStatus, errorThrown) {
+		            // console.log(textStatus);
+		        } 
+		    });
+		}
+	});
+
+	
+	$(document).on('click', "#save" , function () {
+		
+		var comentario = $('#comentario').val();
+
+	    if(comentario){
+
+	   	 $.ajax({
+	        url: '<?php echo base_url('search/comentario'); ?>',
+	        type: 'POST',
+	        dataType : "json",
+	        data: { id: <?php echo $projeto->id; ?>, comentario : comentario },
+	        success: function(data){
+
+	        	$('#comentario').val('');
+
+	            $('#mensagens').html('');
+          		$('#mensagens').html(data);
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+	            // console.log(textStatus);
+	        } 
+	    });
+	   }
+
+	});
+
+	function remover_comentario(id){
+
+		if(id){
+
+	   	 $.ajax({
+	        url: '<?php echo base_url('search/remover_comentario'); ?>',
+	        type: 'POST',
+	        dataType : "json",
+	        data: { id: id, id_projeto: <?php echo $projeto->id; ?> },
+	        success: function(data){
+	        	console.log(data);
+
+	            $('#mensagens').html('');
+          		$('#mensagens').html(data);
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+	            // console.log(textStatus);
+	        } 
+	    });
+	   }
+
+
+	}
+
+	function valida_classificacao(){
+			
+		// console.log(validacao);
+
+		$.ajax({
+	        url: '<?php echo base_url('search/valida_classificacao'); ?>',
+	        type: 'POST',
+	        dataType : "json",
+	        data: { id: <?php echo $projeto->id; ?> },
+	        success: function(data){
+
+	        	// console.log(validacao);
+	        	
+	        	if(data){
+	        		var pontos = Math.round(data.pontuacao);
+
+		        	$('.estrela').css('color', '#ccc');
+	          		
+	          		for (var i = 1; i <= pontos; i++) { 
+						$('#'+i).css('color', '#f9ca24');
+					}
+
+		        	$('#votos').html('');
+	          		$('#votos').html(data.votos+' votes');
+	        	}
+
+          		if("<?php echo $user; ?>" == 'N'){
+          			validacao = false;
+          		}
+	        },
+	        error: function(XMLHttpRequest, textStatus, errorThrown) {
+	            // console.log(textStatus);
+	        } 
+	    });
+	}
+
+</script>

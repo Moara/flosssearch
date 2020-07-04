@@ -4,7 +4,7 @@
 // SENAO VERIFICAR SE REPOSITORIO JÁ EXISTE
 // OU TRIGGER REALIZAR ESSA AÇÃO
 
-// header("Refresh:1");
+header("Refresh:2");
 
 // multiplas linhas : fetchAll
 // uma linha        : fetch
@@ -14,11 +14,11 @@
 require_once ("conection.php");
 
 // TRAZ A LISTA DE LINGUAGENS DO BANCO
-// $sql = $db->query("SELECT SQL_CACHE id, nome, pagina FROM linguagens WHERE status = 1 ORDER BY pagina, id ASC") or die ($link->error);
-// $linguagens = $sql->fetchAll(PDO::FETCH_ASSOC);
+$sql = $db->query("SELECT SQL_CACHE id, full_name, language FROM rep WHERE atualizado is null limit 1") or die ($link->error);
+$repo = $sql->fetchAll(PDO::FETCH_ASSOC);
 
 // // SELECIONA A PRIMEIRA LINGUAGEM
-// $selecionada = $linguagens[0];
+$selecionada = $repo[0];
 
 // // REORGANIZA O ID E NOME DAS LINGUAGENS EM UM NOVO ARRAY, POSSIBILITANDO MÚLTIPLAS CONSULTAS SEM PRECISAR GERAR NOVAS REQUISIÇÕES NO BANCO.
 // $lista = array();
@@ -27,7 +27,8 @@ require_once ("conection.php");
 // }
 
 // CONSULTA A API
-$url = "https://api.github.com/search/repositories?q=language:Java&page=1&per_page=100";
+// $url = "https://api.github.com/search/repositories?q=language:Java&page=1&per_page=100";
+$url = "https://api.github.com/repos/{$selecionada['full_name']}";
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -38,9 +39,9 @@ curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; en
 $data = curl_exec($ch);
 curl_close($ch);
 
-$obj = json_decode($data);
+$row = json_decode($data);
 
-// var_dump($data);
+// var_dump($obj->node_id);
 
 
 // 2017-07-26T19:52:07Z
@@ -50,19 +51,18 @@ $obj = json_decode($data);
 // date_default_timezone_set('America/Bahia');
 // echo date('Y-m-d H:i:s', strtotime('2017-07-26T19:52:07Z'));
 
-
 // die();
 
-foreach ($obj->items as $key => $row) {
+// foreach ($obj->items as $key => $row) {
 	echo "<pre>";
 	print_r($row);
 	echo "</pre>";
 
-	die();
+	// die();
 	
 	// PESQUISA O ID DA LINGUAGEM PRINCIPAL DO PROJETO, CASO EXISTA NO ARRAY REALIZAR NO PROCEDIMENTO PARA ARMAZENAR NO BANCO
-	$id_linguagem = array_search($row->language, $lista);
-	if ($id_linguagem) {
+	$id_linguagem = $row->language;
+	if ($row->id) {
 
 		// var_dump($row->id);
 		// die();
@@ -172,16 +172,16 @@ foreach ($obj->items as $key => $row) {
 
 	 	$stmt->execute();
 
+
+	 	$update = $db->prepare("UPDATE rep SET atualizado = 1 WHERE id = ".$selecionada['id']."");
+		$update->execute();
+
 	}
 
+	
 
-}
 
-$selecionada['pagina']++;
-
-// INCREMENTA O NÚMERO DA PÁGINA
-$update = $db->prepare("UPDATE linguagens SET pagina = ".$selecionada['pagina']." WHERE id = ".$selecionada['id']."");
-$update->execute();
+// }
 
 unset($db);
 

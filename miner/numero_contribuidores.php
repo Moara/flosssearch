@@ -1,4 +1,5 @@
 <?php
+// header("Refresh:1");
 
 // multiplas linhas : fetchAll
 // uma linha        : fetch
@@ -33,11 +34,16 @@ if ($repositorio) {
 
 	echo "contributors: $contributors <br>";
 
-	if($contributors != 'Fetching'){
+	// if($contributors != 'Fetching'){
+
+	
+
 
 		if(!$contributors){
 			$contributors = 0;
 		}
+
+		if($contributors == 'Fetching'){$contributors = 0;}
 
 		print_r('contributors: '.$contributors);
 		// die();
@@ -50,7 +56,7 @@ if ($repositorio) {
 
 		echo "<br/>GRAVADO!";
 
-	}	
+	// }	
 
 }
 

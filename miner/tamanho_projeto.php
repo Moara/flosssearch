@@ -1,5 +1,5 @@
 <?php
-
+header("Refresh:2");
 // multiplas linhas : fetchAll
 // uma linha        : fetch
 // FETCH_ASSOC
@@ -7,7 +7,7 @@
 
 require_once ("conection.php");
 
-$sql = $db->query("SELECT SQL_CACHE id, name FROM repositorios WHERE code_lines_available is null LIMIT 1") or die ($link->error);
+$sql = $db->query("SELECT SQL_CACHE id, name FROM repositorios WHERE code_lines_available is null AND language = 208 LIMIT 1") or die ($link->error);
 $repositorio = $sql->fetch(PDO::FETCH_OBJ);
 
 if ($repositorio) {

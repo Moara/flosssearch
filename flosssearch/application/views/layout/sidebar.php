@@ -111,7 +111,7 @@
 
     <!-- MATURIDADE (RELEASES) - ranger slider -->
     <label class="ls-label col-lg-12">
-        <p class="ls-label-text filtro"><span title="It checks the number of releases of a project.">MATURITY</span></p>
+        <p class="ls-label-text filtro"><span title="It checks the number of releases of a project.">MATURITY / RELEASE</span></p>
         <input type="text" class="js-range-slider" id="maturidade" value="" data-type="double" data-grid="true" data-min="0" data-max="100" data-from="0" data-to="1000" data-step="1" data-skin="round" />
     </label>
 
@@ -219,6 +219,10 @@
     });
 
 function pesquisar(){
+
+    $('#repositorios').html('');
+    $('#repositorios').html('<div class="ls-txt-center"><img src="<?php echo base_url('assets/images/search.gif') ?>"></div>');
+    
 
     // console.log('pesquisando');
     // console.log($('#tamanho_projeto_min').val());

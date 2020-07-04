@@ -1,34 +1,42 @@
-<div class="ls-topbar ls-topbar-gray" style="text-align: right; padding: 20px;">
-  
-  <div style="padding: 20px 50px;">
-    <a style="border: 1px solid #343a40; padding: .375rem .75rem; font-size: 1rem; line-height: 1.5; border-radius: .25rem; transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out; display: inline-block; font-weight: 400; color: #212529; text-align: center; vertical-align: middle;" class="btn btn-outline-dark float-right" target="_blank" style="margin-top: 25px;" href="<?php echo base_url('welcome/about'); ?>" role="button">About</a>
-  </div>
+<div class="ls-topbar ls-topbar-gray">
 
     <!-- Barra de Notificações -->
     <div class="ls-notification-topbar">
 
       <!-- Links de apoio -->
-        <!-- <div class="ls-alerts-list">
-          
-        </div> -->
+        <div class="ls-alerts-list">
+          <a href="<?php echo base_url('welcome/about'); ?>" target="_blank" class="ls-btn" style="margin-top: 13px; margin-right: 20px;"><span>About</span></a>
+        </div>
 
       <!-- Dropdown com detalhes da conta de usuário -->
-        <!-- <div data-ls-module="dropdown" class="ls-dropdown ls-user-account">
-          <a href="#" class="ls-ico-user">
-            <img src="" alt="" />
-            <span class="ls-name">Moara Brito</span>
-            (moarabritto)
+        <div data-ls-module="dropdown" class="ls-dropdown ls-user-account">
+          <?php if(!isset($this->session->userdata['usuario'])){ ?>
+
+          <a href="#" class="ls-ico-user login">
+            <span class="ls-name">Login</span>
           </a>
 
           <nav class="ls-dropdown-nav ls-user-menu">
-            <ul>
-              <li><a href="#">Meus dados</a></li>
-              <li><a href="#">Faturas</a></li>
-              <li><a href="#">Planos</a></li>
-              <li><a href="#">Sair</a></li>
-             </ul>
-          </nav>
-      </div> -->
+              <ul>
+                <li><a href="<?php echo base_url('usuario'); ?>">Sign in</a></li>
+                <li><a href="<?php echo base_url('usuario/cadastrar'); ?>">Sign up</a></li>
+               </ul>
+            </nav>
+
+          <?php } else { ?>
+            <a href="#" class="ls-ico-user">
+              <!-- <img src="" alt="" /> -->
+              <span class="ls-name"><?php echo $this->session->userdata['usuario']['nome']; ?></span>
+              (<?php echo $this->session->userdata['usuario']['email']; ?>)
+            </a>
+
+            <nav class="ls-dropdown-nav ls-user-menu">
+              <ul>
+                <li><a href="<?php echo base_url('usuario/logout'); ?>">Exit</a></li>
+               </ul>
+            </nav>
+          <?php } ?>
+      </div>
     </div>
 
 <span class="ls-show-sidebar ls-ico-menu"></span>

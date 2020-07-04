@@ -207,5 +207,51 @@ class Repositorio_model extends CI_Model {
 
 	}
 
+	public function comentario($dados)
+    {
+        if ($this->db->insert('comentarios', $dados)) {
+            $ultimo_id = $this->db->insert_id();
+            return $ultimo_id;
+        } else {
+            return false;
+        }
+    }
+
+    public function buscar_comentarios($id){
+        $this->db->select('c.id, u.nome, c.comentario, c.data_cadastro, c.id_usuario');
+		$this->db->join('usuarios as u', 'u.id = c.id_usuario');
+		$this->db->where('c.id_repositorio', $id);
+		$this->db->order_by('c.data_cadastro', 'DESC');
+		return $this->db->get('comentarios as c')->result();
+    }
+
+    public function remover_comentario($id) {
+    	$this->db->delete('comentarios', array('id' => $id));
+    }
+
+    public function buscar_classificacoes($id){
+        $this->db->select('AVG(pontuacao) as pontuacao, COUNT(id) as votos');
+		$this->db->where('id_repositorio', $id);
+		$this->db->group_by('id_repositorio');
+		return $this->db->get('classificacoes')->row();
+    }
+
+    public function classificacao($dados)
+    {
+        if ($this->db->insert('classificacoes', $dados)) {
+            $ultimo_id = $this->db->insert_id();
+            return $ultimo_id;
+        } else {
+            return false;
+        }
+    }
+
+    public function valida_classificacao($id, $id_repositorio){
+        $this->db->select('id');
+		$this->db->where('id_usuario', $id);
+		$this->db->where('id_repositorio', $id_repositorio);
+		return $this->db->get('classificacoes')->row();
+    }
+
 
 }

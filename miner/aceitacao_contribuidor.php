@@ -4,7 +4,7 @@
 // SENAO VERIFICAR SE REPOSITORIO JÁ EXISTE
 // OU TRIGGER REALIZAR ESSA AÇÃO
 
-// header("Refresh:1");
+header("Refresh:5");
 
 // multiplas linhas : fetchAll
 // uma linha        : fetch
@@ -17,7 +17,7 @@
 require_once ("conection.php");
 
 // TRAZ A LISTA DE LINGUAGENS DO BANCO
-$sql = $db->query("SELECT SQL_CACHE id, id_repo FROM repositorios WHERE aceita_contribuicao IS NULL ORDER BY id ASC LIMIT 1") or die ($link->error);
+$sql = $db->query("SELECT SQL_CACHE id, id_repo FROM repositorios WHERE aceita_contribuicao IS NULL AND language = 208 ORDER BY id ASC LIMIT 1") or die ($link->error);
 
 $repositorio = $sql->fetch(PDO::FETCH_ASSOC);
 
@@ -27,9 +27,11 @@ echo "<br/>";
 // CONSULTA A API
 $url = "https://api.github.com/search/labels?repository_id=".$repositorio['id_repo']."&q=help+wanted+good+first+issue&per_page=100";
 $ch = curl_init();
+$authToken = 'c349a5ceb6bb773ab22158aff559098f54dcaa88';
 $headers = [
     'Accept: application/vnd.github.symmetra-preview+json'
 ];
+$headr[] = 'Authorization:'.$authToken;
 
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

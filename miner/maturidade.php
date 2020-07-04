@@ -1,5 +1,5 @@
 <?php
-header("Refresh:10");
+header("Refresh:1");
 // multiplas linhas : fetchAll
 // uma linha        : fetch
 // FETCH_ASSOC
@@ -64,6 +64,20 @@ if ($repositorio) {
 		$releases = preg_replace('/\s\s+/', ' ', $releases);
 
 
+
+	}
+
+	echo "<br> RELEASES {$releases} <br>";
+
+
+	$r = strpos($releases, 'packages');
+	if ($r) {
+		$pr = strpos($releases, 'packages');
+		$releases = substr($releases, 0, $pr);
+
+		$releases = substr($releases, 8);
+		$releases = trim(html_entity_decode(strip_tags($releases)));
+		$releases = preg_replace('/\s\s+/', ' ', $releases);
 
 	}
 	

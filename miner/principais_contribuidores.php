@@ -2,7 +2,7 @@
 
 // PRINCIPAIS CONTRIBUIDORES
 
-// header("Refresh:1");
+header("Refresh:1");
 // multiplas linhas : fetchAll
 // uma linha        : fetch
 // FETCH_ASSOC

@@ -115,11 +115,27 @@ class Search extends CI_Controller {
 	private function rendering($dados){
 
 		if ($dados) {
+			
+			$repositorios = '';
+			
+			foreach ($dados as $row) {
 
 			$labels = '';
-			$repositorios = '';
+			$estrelas = '';
 
-			foreach ($dados as $row) {
+			$c = $this->repositorio_model->buscar_classificacoes($row->id);
+			
+			if($c){
+				for ($i = 1; $i <= 5; $i++) {
+
+					if($i <= ceil($c->pontuacao)){
+						$estrelas .= '<span class="ls-ico-star estrela" style="color: #f9ca24;"></span>';
+					} else {
+						$estrelas .= '<span class="ls-ico-star estrela" style="color: #ccc;"></span>';
+					}
+					
+				}
+			}
 			
 			$repositorios .= 
 			'<div class="ls-box col-lg-12 card">
@@ -134,6 +150,10 @@ class Search extends CI_Controller {
 		            </a>
 		            <h2 class="ls-txt-center ls-float-none"><a href="'.base_url("search/details/$row->node_id").'">'.$row->name.'</a></h2>
 		          </div>
+
+		          <div class="col-lg-12" style="text-align: center; font-size: 20px; color: #ccc;">
+			    	'.$estrelas.'
+				  </div>
 
 		          <div class="col-lg-12 ls-no-padding">
 		            <h6 class="card-title text-uppercase text-muted mb-2">Description</h6>
@@ -210,6 +230,25 @@ class Search extends CI_Controller {
 		    $this->repositorio_model->setNodeId($node_id);
 		    $dados['projeto'] = $this->repositorio_model->details();
 
+		    $dados['comentarios'] = $this->repositorio_model->buscar_comentarios($dados['projeto']->id);
+
+		    // $dados['classificacao'] = $this->repositorio_model->buscar_classificacoes($dados['projeto']->id);
+		    $dados['votou'] = 'S';
+
+		    if(isset($this->session->userdata['usuario'])){
+				$busca = $this->repositorio_model->valida_classificacao($this->session->userdata['usuario']['id'], $dados['projeto']->id);
+
+				if($busca){
+					$dados['votou'] = 'S';
+				} else {
+					$dados['votou'] = 'N';
+				}	
+			}
+
+
+
+
+
 		    $this->load->model('contribuidores_model');
 		    $this->contribuidores_model->setIdRepositorio($dados['projeto']->id);
 		    $dados['contribuidores'] = $this->contribuidores_model->contribuidores();
@@ -217,6 +256,8 @@ class Search extends CI_Controller {
 		    $this->load->model('label_model');
 		    $this->label_model->setIdRepositorio($dados['projeto']->id);
 		    $dados['labels'] = $this->label_model->labels();
+
+		    $dados['user'] = isset($this->session->userdata['usuario']) ? 'S' : 'N';
 
 			$this->exibir(false, 'header_details', false, 'details', $dados);
 		
@@ -233,6 +274,104 @@ class Search extends CI_Controller {
 		$resultado = $this->repositorio_model->projetos_selecionados($this->input->post('projetos'));
 
 		echo json_encode($resultado);
+	}
+
+	public function comentario(){
+
+		$this->load->model('repositorio_model');
+
+		date_default_timezone_set('America/Bahia');
+
+		$dados = array(
+			'id_repositorio' => $this->input->post('id'),
+			'id_usuario' => $this->session->userdata['usuario']['id'],
+			'comentario' => $this->input->post('comentario'),
+			'data_cadastro' => date('Y-m-d H:i:s')
+		);
+
+		$this->repositorio_model->comentario($dados);
+
+		$resultado = $this->rendering_comments($this->repositorio_model->buscar_comentarios($this->input->post('id')));
+
+		echo json_encode($resultado);
+	}
+
+	private function rendering_comments($dados){
+
+		if ($dados) {
+
+			$comments = '';
+
+			foreach ($dados as $b) {
+			
+			$comments .= '<div class="row">
+			      	<div class="col-lg-10"><p><strong>'.date('d/m/Y H:i:s', strtotime($b->data_cadastro)).' - '.$b->nome.'</strong></p></div>';
+				      
+				    if(isset($this->session->userdata['usuario'])){
+				    
+				    	if($b->id_usuario == $this->session->userdata['usuario']['id']){
+				    $comments .= '<div class="col-lg-2" style="color: red; text-align: right; padding: 0px 30px; cursor: pointer; font-size: 20px;"><span class="ls-ico-remove ls-ico-right" onclick="remover_comentario('.$b->id.')"></span></div>';
+						}
+					}
+
+			$comments .= '</div>
+			      <div class="row">
+			      	<div class="col-lg-12">
+			      		<p class="ls-break-text" style="text-align: justify;">'.$b->comentario.'</p>
+			      		<hr>
+			      	</div>
+			      </div>';
+			
+		    }
+
+
+		} else {
+			$comments = '<div class="pulse-icon ls-ico-search"></div><h4 class="ls-txt-center" style="margin-top:40px;"><strong>NO COMMENT FOUND!</strong></h4>';
+		}
+
+		return $comments;
+	}
+
+	public function remover_comentario(){
+
+		$this->load->model('repositorio_model');
+
+		$this->repositorio_model->remover_comentario($this->input->post('id'));
+
+		$resultado = $this->rendering_comments($this->repositorio_model->buscar_comentarios($this->input->post('id_projeto')));
+
+		echo json_encode($resultado);
+	}
+
+	public function classificacao(){
+
+		$this->load->model('repositorio_model');
+
+		date_default_timezone_set('America/Bahia');
+
+		$dados = array(
+			'id_repositorio' => $this->input->post('id'),
+			'id_usuario' => $this->session->userdata['usuario']['id'],
+			'pontuacao' => $this->input->post('pontuacao'),
+			'data_cadastro' => date('Y-m-d H:i:s')
+		);
+
+		$this->repositorio_model->classificacao($dados);
+
+		$resultado = $this->repositorio_model->buscar_classificacoes($this->input->post('id'));
+
+		echo json_encode($resultado);
+
+	}
+
+	public function valida_classificacao(){
+
+		$this->load->model('repositorio_model');
+
+		$resultado = $this->repositorio_model->buscar_classificacoes($this->input->post('id'));
+		
+		echo json_encode($resultado);
+
 	}
 
 }

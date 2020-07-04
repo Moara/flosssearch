@@ -4,7 +4,7 @@
 // SENAO VERIFICAR SE REPOSITORIO JÁ EXISTE
 // OU TRIGGER REALIZAR ESSA AÇÃO
 
-// header("Refresh:1");
+header("Refresh:5");
 
 // multiplas linhas : fetchAll
 // uma linha        : fetch
@@ -18,7 +18,7 @@ $sql = $db->query("SELECT SQL_CACHE id, nome, pagina FROM linguagens WHERE statu
 $linguagens = $sql->fetchAll(PDO::FETCH_ASSOC);
 
 // // SELECIONA A PRIMEIRA LINGUAGEM
-// $selecionada = $linguagens[0];
+$selecionada = $linguagens[0];
 
 // // REORGANIZA O ID E NOME DAS LINGUAGENS EM UM NOVO ARRAY, POSSIBILITANDO MÚLTIPLAS CONSULTAS SEM PRECISAR GERAR NOVAS REQUISIÇÕES NO BANCO.
 $lista = array();
@@ -27,7 +27,9 @@ foreach ($linguagens as $r) {
 }
 
 // CONSULTA A API
-$url = "https://api.github.com/repos/apache/cordova-docs";
+// $url = "https://api.github.com/repos/apache/cordova-docs";
+1402
+// $url = "https://api.github.com/search/repositories?q=language:".$selecionada['nome']."&page=".$selecionada['pagina']."&per_page=100";
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -38,7 +40,7 @@ curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; en
 $data = curl_exec($ch);
 curl_close($ch);
 
-$row = json_decode($data);
+$rows = json_decode($data);
 
 // var_dump($data);
 
@@ -53,7 +55,7 @@ $row = json_decode($data);
 
 // die();
 
-// foreach ($obj->items as $key => $row) {
+foreach ($rows->items as $key => $row) {
 	echo "<pre>";
 	print_r($row);
 	echo "</pre>";
@@ -175,13 +177,13 @@ $row = json_decode($data);
 	}
 
 
-// }
+}
 
-// $selecionada['pagina']++;
+$selecionada['pagina']++;
 
 // INCREMENTA O NÚMERO DA PÁGINA
-// $update = $db->prepare("UPDATE linguagens SET pagina = ".$selecionada['pagina']." WHERE id = ".$selecionada['id']."");
-// $update->execute();
+$update = $db->prepare("UPDATE linguagens SET pagina = ".$selecionada['pagina']." WHERE id = ".$selecionada['id']."");
+$update->execute();
 
 unset($db);
 

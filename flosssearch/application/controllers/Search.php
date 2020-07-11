@@ -273,7 +273,43 @@ class Search extends CI_Controller {
 
 		$resultado = $this->repositorio_model->projetos_selecionados($this->input->post('projetos'));
 
-		echo json_encode($resultado);
+		$xls  = "";
+		$xls  = str_replace('"',"", $this->input->post('parameters'));
+    	$xls .= "  <table border='1' >";
+		$xls .= "          <tr>";
+		    $xls .= "          <th>NAME</th>";
+		    $xls .= "          <th>CLASSIFICATION</th>";
+		    $xls .= "          <th>CODE LINES</th>";
+		    $xls .= "          <th>TOTAL CONTRIBUTORS</th>";
+		    $xls .= "          <th>MATURITY / RELEASE</th>";
+		    $xls .= "          <th>ACTIVE PROJECT</th>";
+		    $xls .= "          <th>FORK</th>";
+		    $xls .= "          <th>OPEN ISSUES</th>";
+		    $xls .= "          <th>STAR</th>";
+		    $xls .= "          <th>URL</th>";
+		    $xls .= "          <th>DESCRIPTION</th>";
+		    $xls .= "      </tr>";
+
+		    foreach($resultado as $res){
+		        $xls .= "      <tr>";
+		        $xls .= "          <td>".$res->name."</td>";
+		        $xls .= "          <td>".round($res->classification)."</td>";
+		        $xls .= "          <td>".$res->code_lines."</td>"; 
+		        $xls .= "          <td>".$res->total_contribuidores."</td>";
+		        $xls .= "          <td>".$res->releases."</td>";
+		        $xls .= "          <td>".$res->quantidade_commits."</td>";
+		        $xls .= "          <td>".$res->forks_count."</td>";
+		        $xls .= "          <td>".$res->open_issues_count."</td>";
+		        $xls .= "          <td>".$res->stargazers_count."</td>";
+		        $xls .= "          <td>".$res->html_url."</td>";
+		        $xls .= "          <td>".$res->description."</td>";
+		        $xls .= "      </tr>";
+		    }
+		    $xls .= "  </table>";
+
+
+
+		echo json_encode($xls);
 	}
 
 	public function comentario(){

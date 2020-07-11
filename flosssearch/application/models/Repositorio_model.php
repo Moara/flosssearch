@@ -201,7 +201,7 @@ class Repositorio_model extends CI_Model {
 
 	public function projetos_selecionados($projetos) {
 
-		$this->db->select('name, html_url, code_lines, description');
+		$this->db->select('name, html_url, code_lines, description, total_contribuidores, releases, quantidade_commits, forks_count, open_issues_count, stargazers_count, (SELECT AVG(classificacoes.pontuacao) FROM classificacoes WHERE id_repositorio = repositorios.id) AS classification');
 		$this->db->where_in('node_id', $projetos);		
 		return $this->db->get('repositorios')->result();
 

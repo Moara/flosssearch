@@ -358,7 +358,7 @@ $(document).on('click', ".add" , function () {
 
 function download(filename, text) {
     var element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('href', 'data:application/vnd.ms-excel;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
 
     element.style.display = 'none';
@@ -375,10 +375,10 @@ $(document).on('click', "#download" , function () {
         url: '<?php echo base_url('search/projetos_selecionados'); ?>',
         type: 'POST',
         dataType : "json",
-        data: { projetos: projetos },
+        data: { projetos: projetos, parameters: 'PARAMETERS: '+JSON.stringify(config) },
         success: function(data){
             // console.table(data);
-            download('projects.txt', 'PARAMETERS: '+JSON.stringify(config)+'\n\n\nPROJECTS: '+JSON.stringify(data));
+            download('projects.xls', JSON.stringify(data));
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             // console.log(textStatus);

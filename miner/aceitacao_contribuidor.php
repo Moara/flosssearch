@@ -27,7 +27,7 @@ echo "<br/>";
 // CONSULTA A API
 $url = "https://api.github.com/search/labels?repository_id=".$repositorio['id_repo']."&q=help+wanted+good+first+issue&per_page=100";
 $ch = curl_init();
-$authToken = 'c349a5ceb6bb773ab22158aff559098f54dcaa88';
+$authToken = 'KEY_GITHUB';
 $headers = [
     'Accept: application/vnd.github.symmetra-preview+json'
 ];

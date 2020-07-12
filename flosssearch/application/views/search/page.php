@@ -28,6 +28,62 @@
 <main class="ls-main">
   <div class="container-fluid">
 
+    <div class="row" style="text-align: center; visibility: hidden;" id="botoes">
+
+        <div class="ls-box col-lg-12 ls-txt-center" style="margin: 10px 0px;">
+            <!-- <div class="col-lg-6">
+              <div data-ls-module="switchButton" class="ls-switch-btn">
+                <input type="checkbox" id="information" value="1" checked>
+                <label class="ls-switch-label" for="information" name="label-information"><span></span></label>
+            </div>
+            <p class="ls-label-text filtro"><small id="text-information">COMPLETE INFORMATION</small></p>
+            </div> -->
+        <!-- </div> -->
+
+        <div class="col-lg-6">
+          <div class="col-lg-12" style="padding-right: 6px;">
+            <p class="ls-label-text filtro" style="display: inline;">CLASSIFIED</p>
+
+              <div data-ls-module="switchButton" class="ls-switch-btn ls-float-right">
+                  <input type="checkbox" id="classified" class="check" checked>
+                  <label class="ls-switch-label" for="classified" name="label-classified"><span></span></label>
+              </div>
+          </div>
+
+          <div class="col-lg-12" style="padding-right: 6px;">
+            <p class="ls-label-text filtro" style="display: inline;">NOT CLASSIFIED</p>
+
+              <div data-ls-module="switchButton" class="ls-switch-btn ls-float-right">
+                  <input type="checkbox" id="not-classified" class="check" checked>
+                  <label class="ls-switch-label" for="not-classified" name="label-not-classified"><span></span></label>
+              </div>
+          </div>
+</div>
+
+          <div class="col-lg-6">
+            <div class="col-lg-12" style="padding-right: 6px;">
+            <p class="ls-label-text filtro" style="display: inline;">COMMENTED</p>
+
+              <div data-ls-module="switchButton" class="ls-switch-btn ls-float-right">
+                  <input type="checkbox" id="commented" class="check" checked>
+                  <label class="ls-switch-label" for="commented" name="label-commented"><span></span></label>
+              </div>
+          </div>
+
+          <div class="col-lg-12" style="padding-right: 6px;">
+            <p class="ls-label-text filtro" style="display: inline;">NOT COMMENTED</p>
+
+              <div data-ls-module="switchButton" class="ls-switch-btn ls-float-right">
+                  <input type="checkbox" id="not-commented" class="check" checked>
+                  <label class="ls-switch-label" for="not-commented" name="label-not-commented"><span></span></label>
+              </div>
+          </div>
+          </div>
+
+        </div>
+
+    </div>
+
     <h1 class="ls-title-intro ls-ico-list2 ls-no-bg" id="titulo-pesquisa" style="visibility: hidden;">Results</h1>
 
     <div class="row" id="repositorios">

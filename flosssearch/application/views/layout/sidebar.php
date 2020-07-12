@@ -252,6 +252,12 @@ function pesquisar(){
     var numero_contribuidores_max = '';
     var projeto_ativo = '';
 
+    var classified = $('#classified').is(':checked') ? 1 : '';
+    var not_classified = $('#not-classified').is(':checked') ? 1 : '';
+
+    var commented = $('#commented').is(':checked') ? 1 : '';
+    var not_commented = $('#not-commented').is(':checked') ? 1 : '';
+
     dados = {};
 
     config = {};
@@ -269,7 +275,7 @@ function pesquisar(){
         // console.log('maturidade: '+maturidade);
         // console.log('dominio: '+dominio);
 
-        dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, switch_maturidade: switch_maturidade };
+        dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, switch_maturidade: switch_maturidade, classified: classified, not_classified: not_classified, commented: commented, not_commented: not_commented };
 
 
         linguagem = $('#linguagem').val();
@@ -300,7 +306,7 @@ function pesquisar(){
         numero_contribuidores_max = $('#numero_contribuidores_max').val();
         projeto_ativo = $('#projeto_ativo').val();
 
-        dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, aceita_contribuicao: aceita_contribuicao, issue_tracker: issue_tracker, comunidade_ativa: comunidade_ativa, numero_contribuidores_min: numero_contribuidores_min, numero_contribuidores_max: numero_contribuidores_max, projeto_ativo: projeto_ativo, switch_maturidade: switch_maturidade, switch_projeto_ativo: switch_projeto_ativo };
+        dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, aceita_contribuicao: aceita_contribuicao, issue_tracker: issue_tracker, comunidade_ativa: comunidade_ativa, numero_contribuidores_min: numero_contribuidores_min, numero_contribuidores_max: numero_contribuidores_max, projeto_ativo: projeto_ativo, switch_maturidade: switch_maturidade, switch_projeto_ativo: switch_projeto_ativo, classified: classified, not_classified: not_classified, commented: commented, not_commented: not_commented };
 
 
         config = { CONTROL: 'INSIDE CONTROL', LANGUAGE: $('#linguagem option:selected').text() ? $('#linguagem option:selected').text() : 'UNINFORMED', NUMBER_CONTRIBUTOR_MIN: tamanho_projeto_min ? tamanho_projeto_min : 'UNINFORMED', NUMBER_CONTRIBUTOR_MAX: tamanho_projeto_max ? tamanho_projeto_max : 'UNINFORMED', MATURITY: maturidade ? maturidade : 'UNINFORMED', DOMAIN: dominio ? dominio : 'UNINFORMED', CONTRIBUTORS_ACCEPTANCE: aceita_contribuicao ? aceita_contribuicao : 'UNINFORMED', ISSUE_TRACKER: issue_tracker ? issue_tracker : 'UNINFORMED', ACTIVE_COMUNITY: comunidade_ativa ? comunidade_ativa : 'UNINFORMED', NUMBER_CONTRIBUTORS_MIN: numero_contribuidores_min ? numero_contribuidores_min : 'UNINFORMED', NUMBER_CONTRIBUTORS_MAX: numero_contribuidores_max ? numero_contribuidores_max : 'UNINFORMED', ACTIVE_PROJECT: projeto_ativo ? projeto_ativo : 'UNINFORMED', DOMAIN_OVER_100: switch_maturidade ? switch_maturidade : 'UNINFORMED', ACTIVE_PROJECT_OVER_100: switch_projeto_ativo ? switch_projeto_ativo : 'UNINFORMED' };
@@ -319,6 +325,9 @@ function pesquisar(){
           $('#titulo-pesquisa').css('visibility','visible');
           $('#repositorios').html('');
           $('#repositorios').html(data);
+
+          $('#botoes').css('visibility','visible');
+          
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             // console.log(textStatus);
@@ -399,4 +408,21 @@ $(document).on('click', "#clear" , function () {
     projetos = [];
 });
 
+$(document).ready(function() {
+    // $('#information').change(function() {
+    //     if ($(this).is(':checked')) {
+    //         $('#text-information').html('COMPLETE INFORMATION');
+    //     } else {
+    //         $('#text-information').html('INCOMPLETE INFORMATION');
+    //     }
+    // });
+
+    $('#classified').change(function() {
+        pesquisar();
+    });
+
+    $('#not-classified').change(function() {
+        pesquisar();
+    });
+});
 </script>

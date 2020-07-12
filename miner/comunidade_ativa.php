@@ -27,7 +27,7 @@ if ($cycle_issues_comments) {
 		$data = date('Y-m-d',strtotime("-30 day")).'T00:00:00Z';
 		$url = "https://api.github.com/repos/".$repositorio->full_name."/issues/comments?sort=updated&direction=desc&since=".$data."&per_page=100";
 
-		$authToken = 'c349a5ceb6bb773ab22158aff559098f54dcaa88';
+		$authToken = 'KEY_GITHUB';
 $headr = array();
 //$headr[] = 'Content-length: 0';
 // $headr[] = 'Accept: application/json';

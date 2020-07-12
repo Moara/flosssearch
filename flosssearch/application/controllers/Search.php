@@ -59,7 +59,17 @@ class Search extends CI_Controller {
 
 			$switch_maturidade = $this->input->post('switch_maturidade') ? $this->input->post('switch_maturidade') : '';
 
-			$resultado = $this->rendering($this->repositorio_model->search($switch_maturidade));
+			$classified = $this->input->post('classified') ? $this->input->post('classified') : '';
+			$not_classified = $this->input->post('not_classified') ? $this->input->post('not_classified') : '';
+
+			$commented = $this->input->post('commented') ? $this->input->post('commented') : '';
+			$not_commented = $this->input->post('not_commented') ? $this->input->post('not_commented') : '';
+
+			if ((!$classified && !$not_classified) || (!$commented && !$not_commented)) {
+				$resultado = $this->rendering([]);
+			} else {
+				$resultado = $this->rendering($this->repositorio_model->search($switch_maturidade, '', $classified, $not_classified, $commented, $not_commented));
+			}
 
 		} else {
 
@@ -105,7 +115,18 @@ class Search extends CI_Controller {
 			$switch_maturidade = $this->input->post('switch_maturidade') ? $this->input->post('switch_maturidade') : '';
 			$switch_projeto_ativo = $this->input->post('switch_projeto_ativo') ? $this->input->post('switch_projeto_ativo') : '';
 
-			$resultado = $this->rendering($this->repositorio_model->search($switch_maturidade, $switch_projeto_ativo));
+			$classified = $this->input->post('classified');
+			$not_classified = $this->input->post('not_classified');
+
+			$commented = $this->input->post('commented') ? $this->input->post('commented') : '';
+			$not_commented = $this->input->post('not_commented') ? $this->input->post('not_commented') : '';
+
+
+			if (($classified && $not_classified) || ($commented && $not_commented)) {
+				$resultado = $this->rendering([]);
+			} else {
+				$resultado = $this->rendering($this->repositorio_model->search($switch_maturidade, $switch_projeto_ativo, $classified, $not_classified, $commented, $not_commented));
+			}
 
 		}
 
@@ -327,6 +348,8 @@ class Search extends CI_Controller {
 
 		$this->repositorio_model->comentario($dados);
 
+		$this->repositorio_model->update_commented($this->input->post('id'), 1);
+
 		$resultado = $this->rendering_comments($this->repositorio_model->buscar_comentarios($this->input->post('id')));
 
 		echo json_encode($resultado);
@@ -374,7 +397,15 @@ class Search extends CI_Controller {
 
 		$this->repositorio_model->remover_comentario($this->input->post('id'));
 
-		$resultado = $this->rendering_comments($this->repositorio_model->buscar_comentarios($this->input->post('id_projeto')));
+		// buscar
+		$comentarios = $this->repositorio_model->buscar_comentarios($this->input->post('id_projeto'));
+
+		// se nao existir mais nenhum comentário
+		if(!$comentarios){
+			$this->repositorio_model->update_commented($this->input->post('id'), 0);
+		}
+
+		$resultado = $this->rendering_comments($comentarios);
 
 		echo json_encode($resultado);
 	}
@@ -393,6 +424,7 @@ class Search extends CI_Controller {
 		);
 
 		$this->repositorio_model->classificacao($dados);
+		$this->repositorio_model->update_classified($this->input->post('id'));
 
 		$resultado = $this->repositorio_model->buscar_classificacoes($this->input->post('id'));
 

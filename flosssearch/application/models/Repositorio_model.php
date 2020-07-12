@@ -130,7 +130,7 @@ class Repositorio_model extends CI_Model {
 		return $this;
 	}
 
-	public function search($switch_maturidade = NULL, $switch_projeto_ativo = NULL) {
+	public function search($switch_maturidade = NULL, $switch_projeto_ativo = NULL, $classified = NULL, $not_classified = NULL, $commented = NULL, $not_commented = NULL) {
 		
 		$this->db->select('node_id, name, html_url, description, total_contribuidores, code_lines, quantidade_commits, data_ultimo_comentario, full_name, id, releases');
 
@@ -184,6 +184,18 @@ class Repositorio_model extends CI_Model {
 			$this->db->where("quantidade_commits >", 100);
 		} else if ($this->getProjetoAtivo()) {
 			$this->db->where('quantidade_commits BETWEEN "'.$this->getProjetoAtivo()[0].'" AND "'.$this->getProjetoAtivo()[1].'"');
+		}
+
+		if ($classified && !$not_classified) {
+			$this->db->where('classified', 1);
+		} else if (!$classified && $not_classified) {
+			$this->db->where('classified', 0);
+		}
+
+		if ($commented && !$not_commented) {
+			$this->db->where('commented', 1);
+		} else if (!$commented && $not_commented) {
+			$this->db->where('commented', 0);
 		}
 		
 		return $this->db->get('repositorios')->result();
@@ -253,5 +265,22 @@ class Repositorio_model extends CI_Model {
 		return $this->db->get('classificacoes')->row();
     }
 
+    public function update_classified($id_repositorio){
+    	$data = array(
+		        'classified' => 1,
+		);
+
+		$this->db->where('id', $id_repositorio);
+		$this->db->update('repositorios', $data);
+    }
+
+    public function update_commented($id_repositorio, $valor){
+    	$data = array(
+		        'commented' => $valor,
+		);
+
+		$this->db->where('id', $id_repositorio);
+		$this->db->update('repositorios', $data);
+    }
 
 }

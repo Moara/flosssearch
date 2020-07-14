@@ -122,7 +122,7 @@ class Search extends CI_Controller {
 			$not_commented = $this->input->post('not_commented') ? $this->input->post('not_commented') : '';
 
 
-			if (($classified && $not_classified) || ($commented && $not_commented)) {
+			if ((!$classified && !$not_classified) || (!$commented && !$not_commented)) {
 				$resultado = $this->rendering([]);
 			} else {
 				$resultado = $this->rendering($this->repositorio_model->search($switch_maturidade, $switch_projeto_ativo, $classified, $not_classified, $commented, $not_commented));

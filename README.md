@@ -1,6 +1,6 @@
 # About FlossSearch.Edu
 
-The FlossSearch.Edu tool was created to support Instructor and students in the selection of FLOSS projects, hosted on GitHub, for use in teaching software engineering. The tool is in English to facilitate its use by researchers from different countries.
+The FlossSearch.Edu tool was created to support Instructor and students in the selection of FLOSS projects, hosted on GitHub, for use in teaching software engineering. The tool is in English to facilitate its use by researchers from different countries. The project home page is http://191.252.92.63/flosssearch/
 
 Considering that there is a growing diversity of projects available in software repositories, finding those that have the desired features for integration in the teaching of Software Engineering is not a trivial task. For this purpose, we identified criteria that have been used for project selection and and with this set of criteria helped us to built this tool to assist Instructor and students search for open source projects to be used in their teaching-learning process.
 

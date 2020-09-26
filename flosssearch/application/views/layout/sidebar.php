@@ -323,10 +323,13 @@ function pesquisar(){
         success: function(data){
           // console.log(data);
           $('#titulo-pesquisa').css('visibility','visible');
+          $('#titulo-pesquisa').html('');
           $('#repositorios').html('');
-          $('#repositorios').html(data);
+          $('#repositorios').html(data.projetos);
 
           $('#botoes').css('visibility','visible');
+
+          $('#titulo-pesquisa').html(data.quantidade + ' Results');
           
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

@@ -30,7 +30,7 @@
 
     <div class="row" style="text-align: center; visibility: hidden;" id="botoes">
 
-        <div class="ls-box col-lg-12 ls-txt-center" style="margin: 10px 0px;">
+        <div class="ls-box col-lg-12 ls-txt-center" style="margin: 10px 0px; padding: 20px;">
             <!-- <div class="col-lg-6">
               <div data-ls-module="switchButton" class="ls-switch-btn">
                 <input type="checkbox" id="information" value="1" checked>
@@ -39,6 +39,10 @@
             <p class="ls-label-text filtro"><small id="text-information">COMPLETE INFORMATION</small></p>
             </div> -->
         <!-- </div> -->
+
+        <div class="col-lg-12">
+          <p class="ls-label-text filtro" style="font-size: 18px!important; margin: 10px!important; color: #CCC;">Evaluated on FlossSearch.Edu for use in the educational context</p>
+        </div>
 
         <div class="col-lg-6">
           <div class="col-lg-12" style="padding-right: 6px;">

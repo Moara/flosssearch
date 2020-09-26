@@ -67,8 +67,11 @@ class Search extends CI_Controller {
 
 			if ((!$classified && !$not_classified) || (!$commented && !$not_commented)) {
 				$resultado = $this->rendering([]);
+				$count = '';
 			} else {
-				$resultado = $this->rendering($this->repositorio_model->search($switch_maturidade, '', $classified, $not_classified, $commented, $not_commented));
+				$query = $this->repositorio_model->search($switch_maturidade, '', $classified, $not_classified, $commented, $not_commented);
+				$resultado = $this->rendering($query);
+				$count = sizeof($query);
 			}
 
 		} else {
@@ -124,13 +127,21 @@ class Search extends CI_Controller {
 
 			if ((!$classified && !$not_classified) || (!$commented && !$not_commented)) {
 				$resultado = $this->rendering([]);
+				$count = '';
 			} else {
-				$resultado = $this->rendering($this->repositorio_model->search($switch_maturidade, $switch_projeto_ativo, $classified, $not_classified, $commented, $not_commented));
+				$query = $this->repositorio_model->search($switch_maturidade, $switch_projeto_ativo, $classified, $not_classified, $commented, $not_commented);
+				$resultado = $this->rendering($query);
+				$count = sizeof($query);
 			}
 
 		}
 
-		echo json_encode($resultado);
+		$data = array(
+			'quantidade' => $count,
+			'projetos' => $resultado, 
+		);
+
+		echo json_encode($data);
 	}
 
 	private function rendering($dados){

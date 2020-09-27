@@ -10,7 +10,7 @@ header("Refresh:1");
 
 require_once ("conection.php");
 
-$sql = $db->query("SELECT SQL_CACHE id, full_name FROM repositorios WHERE main_contributors IS NULL ORDER BY id ASC LIMIT 1") or die ($link->error);
+$sql = $db->query("SELECT SQL_CACHE id, full_name FROM repositorios ORDER BY analise_principais_contribuidores ASC LIMIT 1") or die ($link->error);
 
 $repositorio = $sql->fetch(PDO::FETCH_OBJ);
 
@@ -20,12 +20,19 @@ if($repositorio){
 	print_r($repositorio);
 	echo "</pre>";
 	echo "<hr>";
+	
+	$authToken = 'KEY_GITHUB';
+$headr = array();
+//$headr[] = 'Content-length: 0';
+// $headr[] = 'Accept: application/json';
+$headr[] = 'Authorization:'.$authToken;
 
 	// CONSULTA A API
 	$url = "https://api.github.com/repos/".$repositorio->full_name."/contributors?per_page=10";
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_HTTPHEADER,$headr);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 	curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13");
 
@@ -34,8 +41,22 @@ if($repositorio){
 
 	$obj = json_decode($data);
 
-	if ($obj) {
+	if ($obj && $obj->message == 'Moved Permanently') {
+		
+		date_default_timezone_set('America/Bahia');
+		$data_analise = date('Y-m-d H:i:s');
 
+		$update = $db->prepare("UPDATE repositorios SET main_contributors = 0, analise_principais_contribuidores = '".$data_analise."' WHERE id = ".$repositorio->id."");
+		$update->execute();
+
+	} else if($obj){
+		$delete = $db->prepare("DELETE FROM contribuidores WHERE id_repositorio = ".$repositorio->id."");
+		$delete->execute();
+		
+		echo "DELETADO! <br>";
+		
+		print_r($obj);
+		
 		foreach ($obj as $key => $row) {
 
 			echo "<pre>";

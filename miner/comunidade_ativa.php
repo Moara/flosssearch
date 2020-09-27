@@ -1,5 +1,5 @@
 <?php
-header("Refresh:5");
+header("Refresh:1");
 // multiplas linhas : fetchAll
 // uma linha        : fetch
 // FETCH_ASSOC
@@ -45,11 +45,22 @@ $headr[] = 'Authorization:'.$authToken;
 		curl_close($ch);
 
 		$obj = json_decode($data);
-
-		//var_dump($obj);
+		
+		print_r($repositorio->full_name);
+		echo '<br>';
+		var_dump($obj);
 		//die();
 
-		if($obj){
+		if ($obj && $obj->message == 'Moved Permanently') {
+			
+			date_default_timezone_set('America/Bahia');
+			$data_analise = date('Y-m-d H:i:s');
+			
+			// SE NAO HOUVER REGISTRAR NULL
+			$update = $db->prepare("UPDATE repositorios SET cycle_issues_comments = ".$cycle_issues_comments->valor.", analise_comunidade_ativa = '".$data_analise."' WHERE id = ".$repositorio->id."");
+			$update->execute();
+			
+		} else if($obj){	
 			// REALIZA A PESQUISA SE HOUVER DADOS ATUALIZAR
 			$comentario_recente = $obj[0];
 
@@ -88,7 +99,7 @@ $headr[] = 'Authorization:'.$authToken;
 			$data_analise = date('Y-m-d H:i:s');
 			
 			// SE NAO HOUVER REGISTRAR NULL
-			$update = $db->prepare("UPDATE repositorios SET cycle_issues_comments = ".$cycle_issues_comments->valor.", data_ultimo_comentario = NULL, analise_comunidade_ativa = '".$data_analise."' WHERE id = ".$repositorio->id."");
+			$update = $db->prepare("UPDATE repositorios SET cycle_issues_comments = ".$cycle_issues_comments->valor.", analise_comunidade_ativa = '".$data_analise."' WHERE id = ".$repositorio->id."");
 			$update->execute();
 		}
 

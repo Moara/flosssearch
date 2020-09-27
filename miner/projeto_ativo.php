@@ -1,6 +1,5 @@
 <?php
 header("Refresh:1");
-
 // multiplas linhas : fetchAll
 // uma linha        : fetch
 // FETCH_ASSOC
@@ -8,7 +7,7 @@ header("Refresh:1");
 
 require_once ("conection.php");
 
-$sql = $db->query("SELECT SQL_CACHE id, full_name FROM repositorios WHERE quantidade_commits is null AND language = 208 LIMIT 1") or die ($link->error);
+$sql = $db->query("SELECT SQL_CACHE id, full_name FROM repositorios ORDER BY analise_quantidade_commits ASC LIMIT 1") or die ($link->error);
 $repositorio = $sql->fetch(PDO::FETCH_OBJ);
 
 if ($repositorio) {		
@@ -19,13 +18,11 @@ if ($repositorio) {
 	$data = date('Y-m-d',strtotime("-30 day")).'T00:00:00Z';
 	$url = "https://api.github.com/repos/".$repositorio->full_name."/commits?since=".$data."&per_page=100";
 	// $url = "https://api.github.com/repos/".$repositorio->full_name."/issues/comments?sort=updated&direction=desc&since=".$data."&per_page=100";
-
-$authToken = 'KEY_GITHUB';
-$headr = array();
-//$headr[] = 'Content-length: 0';
-// $headr[] = 'Accept: application/json';
-$headr[] = 'Authorization:'.$authToken;
-
+	$authToken = 'KEY_GITHUB';
+	$headr = array();
+	//$headr[] = 'Content-length: 0';
+	// $headr[] = 'Accept: application/json';
+	$headr[] = 'Authorization:'.$authToken;
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -54,7 +51,7 @@ $headr[] = 'Authorization:'.$authToken;
 	$data_analise = date('Y-m-d H:i:s');
 
 	$update = $db->prepare("UPDATE repositorios SET quantidade_commits = ".$quantidade_commits.", analise_quantidade_commits = '".$data_analise."' WHERE id = ".$repositorio->id."");
-	// $update->execute();
+	$update->execute();
 
 	echo "<br/>GRAVADO!<br/><br/><br/>";
 

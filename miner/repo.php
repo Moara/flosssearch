@@ -4,7 +4,7 @@
 // SENAO VERIFICAR SE REPOSITORIO JÁ EXISTE
 // OU TRIGGER REALIZAR ESSA AÇÃO
 
-header("Refresh:5");
+// header("Refresh:1");
 
 // multiplas linhas : fetchAll
 // uma linha        : fetch
@@ -28,8 +28,8 @@ foreach ($linguagens as $r) {
 
 // CONSULTA A API
 // $url = "https://api.github.com/repos/apache/cordova-docs";
-1402
-// $url = "https://api.github.com/search/repositories?q=language:".$selecionada['nome']."&page=".$selecionada['pagina']."&per_page=100";
+
+$url = "https://api.github.com/search/repositories?q=language:".$selecionada['nome']."&page=".$selecionada['pagina']."&per_page=100";
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

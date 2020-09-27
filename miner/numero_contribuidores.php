@@ -1,6 +1,5 @@
 <?php
-// header("Refresh:1");
-
+header("Refresh:1");
 // multiplas linhas : fetchAll
 // uma linha        : fetch
 // FETCH_ASSOC
@@ -8,7 +7,7 @@
 
 require_once ("conection.php");
 
-$sql = $db->query("SELECT SQL_CACHE id, html_url FROM repositorios WHERE total_contribuidores is null LIMIT 1") or die ($link->error);
+$sql = $db->query("SELECT SQL_CACHE id, html_url FROM repositorios ORDER BY analise_numero_contribuidores ASC LIMIT 1") or die ($link->error);
 $repositorio = $sql->fetch(PDO::FETCH_OBJ);
 
 if ($repositorio) {
@@ -25,27 +24,40 @@ if ($repositorio) {
 	$result = preg_replace('/\s\s+/', ' ', $result);
 	$texto = strip_tags($result);
 
-	$position_releases = strpos($texto, 'releases');
-	$releases = substr($texto, $position_releases);
-	$contributors = strstr($releases, 'contributors', true);
-	$contributors = substr($contributors, 8);
-	$contributors = trim(html_entity_decode(strip_tags($contributors)));
-	$contributors = preg_replace('/\s\s+/', ' ', $contributors);
-
-	echo "contributors: $contributors <br>";
-
-	// if($contributors != 'Fetching'){
-
+	$position_releases = strrpos($texto, 'Contributors');	
 	
+	if($position_releases){
+		$c = substr($texto, $position_releases);
+		$position_languages = strpos($c, 'Languages');
+		if($position_languages){
+			$c = substr($c, 0, $position_languages);	
+		}
+		//$contributors = strstr($c, 'contributors', true);
+		$contributors = substr($c, 0, 100);
+		//$contributors = trim(html_entity_decode(strip_tags($contributors)));
+		//$contributors = preg_replace('/\s\s+/', ' ', $contributors);
+		$contributors = preg_replace("/[^0-9.,+]/","",$contributors);
+		$contributors = preg_replace("/[^0-9.,+]/","",$contributors);
+		$contributors = explode('+', $contributors);
+		$contributors = str_replace(',','', $contributors);
+		$contributors = array_sum($contributors);
+	} else {
+		$contributors = '';
+	}
+	
+	print_r($repositorio->html_url);
+	echo '<br>';
+	
+	print_r($contributors);
 
+
+	if($contributors != 'Fetching'){
 
 		if(!$contributors){
 			$contributors = 0;
 		}
 
-		if($contributors == 'Fetching'){$contributors = 0;}
-
-		print_r('contributors: '.$contributors);
+		print_r('<br/> contributors: '.$contributors);
 		// die();
 
 		date_default_timezone_set('America/Bahia');
@@ -56,8 +68,8 @@ if ($repositorio) {
 
 		echo "<br/>GRAVADO!";
 
-	// }	
-
+	}	
+/**/
 }
 
 unset($db);

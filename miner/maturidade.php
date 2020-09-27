@@ -7,7 +7,7 @@ header("Refresh:1");
 
 require_once ("conection.php");
 
-$sql = $db->query("SELECT SQL_CACHE id, html_url FROM repositorios WHERE releases is null LIMIT 1") or die ($link->error);
+$sql = $db->query("SELECT SQL_CACHE id, html_url FROM repositorios ORDER BY analise_maturidade ASC LIMIT 1") or die ($link->error);
 $repositorio = $sql->fetch(PDO::FETCH_OBJ);
 
 if ($repositorio) {
@@ -26,6 +26,8 @@ if ($repositorio) {
 
 	$result = preg_replace('/\s\s+/', ' ', $result);
 	$texto = strip_tags($result);
+	
+	//print_r($texto);
 
 	$position_branches = strpos($texto, 'branches');
 	if ($position_branches) {
@@ -40,6 +42,9 @@ if ($repositorio) {
 		} else {
 			$releases = strstr($releases, 'release', true);
 		}
+		
+		$position_tags = strpos($releases, 'tags');
+		$releases = substr($releases, 0, $position_tags);
 
 		$releases = substr($releases, 8);
 		$releases = trim(html_entity_decode(strip_tags($releases)));
@@ -58,6 +63,9 @@ if ($repositorio) {
 		} else {
 			$releases = strstr($releases, 'release', true);
 		}
+		
+		$position_tags = strpos($releases, 'tags');
+		$releases = substr($releases, 0, $position_tags);
 
 		$releases = substr($releases, 8);
 		$releases = trim(html_entity_decode(strip_tags($releases)));
@@ -66,20 +74,9 @@ if ($repositorio) {
 
 
 	}
-
-	echo "<br> RELEASES {$releases} <br>";
-
-
-	$r = strpos($releases, 'packages');
-	if ($r) {
-		$pr = strpos($releases, 'packages');
-		$releases = substr($releases, 0, $pr);
-
-		$releases = substr($releases, 8);
-		$releases = trim(html_entity_decode(strip_tags($releases)));
-		$releases = preg_replace('/\s\s+/', ' ', $releases);
-
-	}
+	
+	
+	
 	
 
 	if($releases != 'Fetching'){

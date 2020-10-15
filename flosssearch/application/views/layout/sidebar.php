@@ -156,13 +156,24 @@
         }
     });
 
-    $('#dominio').tagsInput({
-        placeholder: 'Add key words',
-    });
+    // $('#dominio').tagsInput({
+        // placeholder: 'Add key words',
+        // 'onAddTag':pesquisar,
+        // 'onRemoveTag':pesquisar,
+        // 'onChange' : pesquisar,
+    // });
+
 
     var control = 2;
+    var projetos = [];
     
     $(document).ready(function() {
+
+        if (typeof(Storage) !== "undefined" && JSON.parse(sessionStorage.getItem("dados"))) {
+        
+            pesquisar(JSON.parse(sessionStorage.getItem("dados")));
+
+        }
 
         $('#controle').change(function() {
              if ($(this).is(':checked')) {
@@ -218,7 +229,7 @@
         // console.log($('#dominio').val());
     });
 
-function pesquisar(){
+function pesquisar(parametros = null){
 
     $('#repositorios').html('');
     $('#repositorios').html('<div class="ls-txt-center"><img src="<?php echo base_url('assets/images/search.gif') ?>"></div>');
@@ -230,90 +241,155 @@ function pesquisar(){
     $('#buttons').css('display', 'none');
     projetos = [];
 
-    var linguagem = '';
-    var tamanho_projeto_min = '';
-    var tamanho_projeto_max = '';
-    var maturidade = '';
-    var dominio = '';
-    var switch_maturidade = '';
-    var switch_maturidade = '';
-    var switch_projeto_ativo = '';
+    if(parametros){
 
-    var linguagem = '';
-    var tamanho_projeto_min = '';
-    var tamanho_projeto_max = '';
-    var maturidade = '';
-    var dominio = '';
+        dados = parametros;
+        config = JSON.parse(sessionStorage.getItem("config"));
+        
+        if (dados.controle == 1) {
+            $('.controle').fadeOut();
+            $('#nivel_controle').html('INSIDE CONTROL');
+            $("#controle").prop("checked", true);
+            control = 1;
 
-    var aceita_contribuicao = '';
-    var issue_tracker = '';
-    var comunidade_ativa = '';
-    var numero_contribuidores_min = '';
-    var numero_contribuidores_max = '';
-    var projeto_ativo = '';
+            $('#linguagem').val(dados.linguagem);
+            $('#tamanho_projeto_min').val(dados.tamanho_projeto_min);
+            $('#tamanho_projeto_max').val(dados.tamanho_projeto_max);
+            dados.switch_maturidade == 1 ? $("#switch_maturidade").prop("checked", true) : $("#switch_maturidade").prop("checked", false);
+            $('#maturidade').val(dados.maturidade);
+            $('#dominio').val(dados.dominio);
+            dados.classified == 1 ? $("#classified").prop("checked", true) : $("#classified").prop("checked", false);
+            dados.not_classified == 1 ? $("#not_classified").prop("checked", true) : $("#not_classified").prop("checked", false);
+            dados.commented == 1 ? $("#commented").prop("checked", true) : $("#commented").prop("checked", false);
+            dados.not_commented == 1 ? $("#not_commented").prop("checked", true) : $("#not_commented").prop("checked", false);
 
-    var classified = $('#classified').is(':checked') ? 1 : '';
-    var not_classified = $('#not-classified').is(':checked') ? 1 : '';
-
-    var commented = $('#commented').is(':checked') ? 1 : '';
-    var not_commented = $('#not-commented').is(':checked') ? 1 : '';
-
-    dados = {};
-
-    config = {};
-
-    if (control == 1) {
-        linguagem = $('#linguagem').val();
-        tamanho_projeto_min = $('#tamanho_projeto_min').val();
-        tamanho_projeto_max = $('#tamanho_projeto_max').val();
-        maturidade = $('#maturidade').val();
-        dominio = $('#dominio').val();
-        switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
-
-        // console.log('linguagem: '+linguagem);
-        // console.log('tamanho_projeto: '+tamanho_projeto);
-        // console.log('maturidade: '+maturidade);
-        // console.log('dominio: '+dominio);
-
-        dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, switch_maturidade: switch_maturidade, classified: classified, not_classified: not_classified, commented: commented, not_commented: not_commented };
+        } else {
+            $('.controle').fadeIn();
+            $('#nivel_controle').html('NO CONTROL');
+            control = 2;
+            $("#controle").prop("checked", false);
 
 
-        linguagem = $('#linguagem').val();
-        tamanho_projeto_min = $('#tamanho_projeto_min').val();
-        tamanho_projeto_max = $('#tamanho_projeto_max').val();
-        maturidade = $('#maturidade').val();
-        dominio = $('#dominio').val();
-        switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
+            dados.switch_maturidade == 1 ? $("#switch_maturidade").prop("checked", true) : $("#switch_maturidade").prop("checked", false);
+            dados.switch_projeto_ativo == 1 ? $("#switch_projeto_ativo").prop("checked", true) : $("#switch_projeto_ativo").prop("checked", false);
+            $('#linguagem').val(dados.linguagem);
 
-        config = { CONTROL: 'NO CONTROL', LANGUAGE: $('#linguagem option:selected').text() ? $('#linguagem option:selected').text() : 'UNINFORMED', PROJECT_SIZE_MIN: tamanho_projeto_min ? tamanho_projeto_min : 'UNINFORMED', PROJECT_SIZE_MAX: tamanho_projeto_max ? tamanho_projeto_max : 'UNINFORMED', MATURITY: maturidade ? maturidade : 'UNINFORMED', DOMAIN: dominio ? dominio : 'UNINFORMED', DOMAIN_OVER_100: switch_maturidade ? switch_maturidade : 'UNINFORMED' };
+            $('#tamanho_projeto_min').val(dados.tamanho_projeto_min);
+            $('#tamanho_projeto_max').val(dados.tamanho_projeto_max);
+
+            $('#maturidade').val(dados.maturidade);
+            $('#dominio').val(dados.dominio);
+
+            dados.aceita_contribuicao == 1 ? $("#aceita_contribuicao").prop("checked", true) : $("#aceita_contribuicao").prop("checked", false);
+            dados.issue_tracker == 1 ? $("#issue_tracker").prop("checked", true) : $("#issue_tracker").prop("checked", false);
+            dados.comunidade_ativa == 1 ? $("#comunidade_ativa").prop("checked", true) : $("#comunidade_ativa").prop("checked", false);
+
+            $('#numero_contribuidores_min').val(dados.numero_contribuidores_min);
+            $('#numero_contribuidores_max').val(dados.numero_contribuidores_max);
+            $('#projeto_ativo').val(dados.projeto_ativo);
+
+
+            dados.classified == 1 ? $("#classified").prop("checked", true) : $("#classified").prop("checked", false);
+            dados.not_classified == 1 ? $("#not_classified").prop("checked", true) : $("#not_classified").prop("checked", false);
+            dados.commented == 1 ? $("#commented").prop("checked", true) : $("#commented").prop("checked", false);
+            dados.not_commented == 1 ? $("#not_commented").prop("checked", true) : $("#not_commented").prop("checked", false);
+        }       
 
     } else {
 
-         
-        switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
-        switch_projeto_ativo = $('#switch_projeto_ativo').is(':checked') ? 1 : '';
+        var linguagem = '';
+        var tamanho_projeto_min = '';
+        var tamanho_projeto_max = '';
+        var maturidade = '';
+        var dominio = '';
+        var switch_maturidade = '';
+        // var switch_maturidade = '';
+        var switch_projeto_ativo = '';
 
-        linguagem = $('#linguagem').val();
-        tamanho_projeto_min = $('#tamanho_projeto_min').val();
-        tamanho_projeto_max = $('#tamanho_projeto_max').val();
-        maturidade = $('#maturidade').val();
-        dominio = $('#dominio').val();
+        // var linguagem = '';
+        // var tamanho_projeto_min = '';
+        // var tamanho_projeto_max = '';
+        // var maturidade = '';
+        // var dominio = '';
 
-        aceita_contribuicao = $('#aceita_contribuicao').is(':checked') ? 1 : '';
-        issue_tracker = $('#issue_tracker').is(':checked') ? 1 : '';
-        comunidade_ativa = $('#comunidade_ativa').is(':checked') ? 1 : '';
-        numero_contribuidores_min = $('#numero_contribuidores_min').val();
-        numero_contribuidores_max = $('#numero_contribuidores_max').val();
-        projeto_ativo = $('#projeto_ativo').val();
+        var aceita_contribuicao = '';
+        var issue_tracker = '';
+        var comunidade_ativa = '';
+        var numero_contribuidores_min = '';
+        var numero_contribuidores_max = '';
+        var projeto_ativo = '';
 
-        dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, aceita_contribuicao: aceita_contribuicao, issue_tracker: issue_tracker, comunidade_ativa: comunidade_ativa, numero_contribuidores_min: numero_contribuidores_min, numero_contribuidores_max: numero_contribuidores_max, projeto_ativo: projeto_ativo, switch_maturidade: switch_maturidade, switch_projeto_ativo: switch_projeto_ativo, classified: classified, not_classified: not_classified, commented: commented, not_commented: not_commented };
+        var classified = $('#classified').is(':checked') ? 1 : '';
+        var not_classified = $('#not-classified').is(':checked') ? 1 : '';
+
+        var commented = $('#commented').is(':checked') ? 1 : '';
+        var not_commented = $('#not-commented').is(':checked') ? 1 : '';
+
+        dados = {};
+
+        config = {};
+
+        if (control == 1) {
+            linguagem = $('#linguagem').val();
+            tamanho_projeto_min = $('#tamanho_projeto_min').val();
+            tamanho_projeto_max = $('#tamanho_projeto_max').val();
+            maturidade = $('#maturidade').val();
+            dominio = $('#dominio').val();
+            switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
+
+            // console.log('linguagem: '+linguagem);
+            // console.log('tamanho_projeto: '+tamanho_projeto);
+            // console.log('maturidade: '+maturidade);
+            // console.log('dominio: '+dominio);
+
+            dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, switch_maturidade: switch_maturidade, classified: classified, not_classified: not_classified, commented: commented, not_commented: not_commented };
 
 
-        config = { CONTROL: 'INSIDE CONTROL', LANGUAGE: $('#linguagem option:selected').text() ? $('#linguagem option:selected').text() : 'UNINFORMED', NUMBER_CONTRIBUTOR_MIN: tamanho_projeto_min ? tamanho_projeto_min : 'UNINFORMED', NUMBER_CONTRIBUTOR_MAX: tamanho_projeto_max ? tamanho_projeto_max : 'UNINFORMED', MATURITY: maturidade ? maturidade : 'UNINFORMED', DOMAIN: dominio ? dominio : 'UNINFORMED', CONTRIBUTORS_ACCEPTANCE: aceita_contribuicao ? aceita_contribuicao : 'UNINFORMED', ISSUE_TRACKER: issue_tracker ? issue_tracker : 'UNINFORMED', ACTIVE_COMUNITY: comunidade_ativa ? comunidade_ativa : 'UNINFORMED', NUMBER_CONTRIBUTORS_MIN: numero_contribuidores_min ? numero_contribuidores_min : 'UNINFORMED', NUMBER_CONTRIBUTORS_MAX: numero_contribuidores_max ? numero_contribuidores_max : 'UNINFORMED', ACTIVE_PROJECT: projeto_ativo ? projeto_ativo : 'UNINFORMED', DOMAIN_OVER_100: switch_maturidade ? switch_maturidade : 'UNINFORMED', ACTIVE_PROJECT_OVER_100: switch_projeto_ativo ? switch_projeto_ativo : 'UNINFORMED' };
+            linguagem = $('#linguagem').val();
+            tamanho_projeto_min = $('#tamanho_projeto_min').val();
+            tamanho_projeto_max = $('#tamanho_projeto_max').val();
+            maturidade = $('#maturidade').val();
+            dominio = $('#dominio').val();
+            switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
+
+            config = { CONTROL: 'NO CONTROL', LANGUAGE: $('#linguagem option:selected').text() ? $('#linguagem option:selected').text() : 'UNINFORMED', PROJECT_SIZE_MIN: tamanho_projeto_min ? tamanho_projeto_min : 'UNINFORMED', PROJECT_SIZE_MAX: tamanho_projeto_max ? tamanho_projeto_max : 'UNINFORMED', MATURITY: maturidade ? maturidade : 'UNINFORMED', DOMAIN: dominio ? dominio : 'UNINFORMED', DOMAIN_OVER_100: switch_maturidade ? switch_maturidade : 'UNINFORMED' };
+
+        } else {
+
+             
+            switch_maturidade = $('#switch_maturidade').is(':checked') ? 1 : '';
+            switch_projeto_ativo = $('#switch_projeto_ativo').is(':checked') ? 1 : '';
+
+            linguagem = $('#linguagem').val();
+            tamanho_projeto_min = $('#tamanho_projeto_min').val();
+            tamanho_projeto_max = $('#tamanho_projeto_max').val();
+            maturidade = $('#maturidade').val();
+            dominio = $('#dominio').val();
+
+            aceita_contribuicao = $('#aceita_contribuicao').is(':checked') ? 1 : '';
+            issue_tracker = $('#issue_tracker').is(':checked') ? 1 : '';
+            comunidade_ativa = $('#comunidade_ativa').is(':checked') ? 1 : '';
+            numero_contribuidores_min = $('#numero_contribuidores_min').val();
+            numero_contribuidores_max = $('#numero_contribuidores_max').val();
+            projeto_ativo = $('#projeto_ativo').val();
+
+            dados = { controle: control, linguagem: linguagem, tamanho_projeto_min: tamanho_projeto_min, tamanho_projeto_max: tamanho_projeto_max, maturidade: maturidade, dominio: dominio, aceita_contribuicao: aceita_contribuicao, issue_tracker: issue_tracker, comunidade_ativa: comunidade_ativa, numero_contribuidores_min: numero_contribuidores_min, numero_contribuidores_max: numero_contribuidores_max, projeto_ativo: projeto_ativo, switch_maturidade: switch_maturidade, switch_projeto_ativo: switch_projeto_ativo, classified: classified, not_classified: not_classified, commented: commented, not_commented: not_commented };
+
+
+            config = { CONTROL: 'INSIDE CONTROL', LANGUAGE: $('#linguagem option:selected').text() ? $('#linguagem option:selected').text() : 'UNINFORMED', NUMBER_CONTRIBUTOR_MIN: tamanho_projeto_min ? tamanho_projeto_min : 'UNINFORMED', NUMBER_CONTRIBUTOR_MAX: tamanho_projeto_max ? tamanho_projeto_max : 'UNINFORMED', MATURITY: maturidade ? maturidade : 'UNINFORMED', DOMAIN: dominio ? dominio : 'UNINFORMED', CONTRIBUTORS_ACCEPTANCE: aceita_contribuicao ? aceita_contribuicao : 'UNINFORMED', ISSUE_TRACKER: issue_tracker ? issue_tracker : 'UNINFORMED', ACTIVE_COMUNITY: comunidade_ativa ? comunidade_ativa : 'UNINFORMED', NUMBER_CONTRIBUTORS_MIN: numero_contribuidores_min ? numero_contribuidores_min : 'UNINFORMED', NUMBER_CONTRIBUTORS_MAX: numero_contribuidores_max ? numero_contribuidores_max : 'UNINFORMED', ACTIVE_PROJECT: projeto_ativo ? projeto_ativo : 'UNINFORMED', DOMAIN_OVER_100: switch_maturidade ? switch_maturidade : 'UNINFORMED', ACTIVE_PROJECT_OVER_100: switch_projeto_ativo ? switch_projeto_ativo : 'UNINFORMED' };
+        }
+        
+        // console.log('...');
+        // console.log(numero_contribuidores_min);
+
+        if (typeof(Storage) !== "undefined") {
+            
+            sessionStorage.setItem("dados", JSON.stringify(dados));
+            sessionStorage.setItem("config", JSON.stringify(config));
+
+        }
+
     }
-    
-    // console.log('...');
-    // console.log(numero_contribuidores_min);
 
     $.ajax({
         url: '<?php echo base_url('search/pesquisar'); ?>',
@@ -330,6 +406,9 @@ function pesquisar(){
           $('#botoes').css('visibility','visible');
 
           $('#titulo-pesquisa').html(data.quantidade + ' Results');
+
+          // console.log(JSON.parse(sessionStorage.getItem("dados")));
+
           
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -338,8 +417,6 @@ function pesquisar(){
     });
 
 }
-
-let projetos = [];
 
 $(document).on('click', ".add" , function () {
     console.log($(this).attr("id"));

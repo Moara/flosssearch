@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Britto"
+  given-names: "Moara"
+  orcid: ""
+- family-names: "Lessa"
+  given-names: "Breno"
+  orcid: ""
+- family-names: "von Flach"
+  given-names: "Christina"
+  orcid: "https://orcid.org/0000-0001-5172-9641"  
+title: "flosssearch"
+version: 1.0.0
+doi: 10.5281/zenodo.8339681
+date-released: 2023-09-13
+url: "https://github.com/seed-br/flosssearch"
